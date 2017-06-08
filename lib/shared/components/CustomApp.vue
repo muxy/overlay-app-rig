@@ -15,26 +15,11 @@
 import Window from 'shared/components/Window';
 import _ from 'lodash';
 
-// Known custom app types.
-import Clicker from './Clicker';
-import Confetti from './Confetti';
-import Info from './Info';
-import PretzelNowPlaying from './PretzelNowPlaying';
-import Sentiment from './Sentiment';
-import SpotifyNowPlaying from './SpotifyNowPlaying';
-import Globe from './Globe';
-
 export default {
   name: 'custom-app',
   components: {
     Window,
-    Clicker,
-    Confetti,
-    Globe,
-    Info,
-    PretzelNowPlaying,
-    Sentiment,
-    SpotifyNowPlaying
+    Info
   },
 
   data: () => ({

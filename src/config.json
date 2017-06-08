@@ -1,15 +1,15 @@
 {
-  id: "my-awesome-app",
-  name: "My Awesome App",
-  icon: true,
-  iconFile: "static/apps/my-awesome-app/logo.png",
-  type: "my-awesome-app",
-  available: true,
-  configurable: true,
-  window: {
-    autoHeight: true,
-    autoWidth: true,
-    movable: false,
-    center: false
+  "id": "my-awesome-app",
+  "name": "My Awesome App",
+  "icon": true,
+  "iconFile": "static/apps/my-awesome-app/logo.png",
+  "type": "my-awesome-app",
+  "available": true,
+  "configurable": true,
+  "window": {
+    "autoHeight": true,
+    "autoWidth": true,
+    "movable": false,
+    "center": false
   }
 }
