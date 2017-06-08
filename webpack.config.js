@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const port = process.env.PORT || 9000;
 
 function resolve(dir) {
-  return path.resolve(__dirname, '..', dir);
+  return path.resolve(__dirname, dir);
 }
 
 module.exports = {
@@ -32,7 +32,8 @@ module.exports = {
       vue$: 'vue/dist/vue.esm.js',
       shared: resolve('lib/shared'),
       src: resolve('lib'),
-      app: resolve('src')
+      app: resolve('src'),
+      manifest$: resolve('manifest.json')
     }
   },
 
@@ -41,17 +42,17 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'config.html',
       chunks: ['config'],
-      template: 'src/config/index.html'
+      template: 'lib/config/index.html'
     }),
     new HtmlWebpackPlugin({
       filename: 'live.html',
       chunks: ['live'],
-      template: 'src/live/index.html'
+      template: 'lib/live/index.html'
     }),
     new HtmlWebpackPlugin({
       filename: 'viewer.html',
       chunks: ['viewer'],
-      template: 'src/viewer/index.html'
+      template: 'lib/viewer/index.html'
     })
   ],
 

@@ -26,7 +26,7 @@ import Toolbar from 'shared/components/Toolbar';
 import CustomApp from 'shared/components/CustomApp';
 
 // Developer app
-import * as AppConfig from 'src/config';
+import * as AppConfig from 'app/config';
 
 console.log(AppConfig);
 
