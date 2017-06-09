@@ -15,12 +15,16 @@
 import Window from 'shared/components/Window';
 import _ from 'lodash';
 
+import DevApp from 'app//* @echo viewerComponent */';
+
+let localComponents = {
+  Window,
+  '/* @echo type */': DevApp
+};
+
 export default {
   name: 'custom-app',
-  components: {
-    Window,
-    Info
-  },
+  components: localComponents,
 
   data: () => ({
     show: false,

@@ -12,16 +12,11 @@
 <script>
 import { Mutations } from 'shared/js/store';
 
-const UiTooltip = window.KeenUI.UiTooltip;
-
-
 export default {
   name: 'toolbar-app',
   props: {
     data: Object
   },
-
-  components: { UiTooltip },
 
   methods: {
     focus(event) {
