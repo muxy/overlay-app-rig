@@ -14,6 +14,7 @@ module.exports = {
   devtool: 'inline-source-map',
 
   entry: {
+    rig: './lib/rig/index.js',
     config: './lib/config/index.js',
     live: './lib/live/index.js',
     viewer: './lib/viewer/index.js'
@@ -41,6 +42,11 @@ module.exports = {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      chunks: ['rig'],
+      template: 'lib/rig/index.html'
+    }),
     new HtmlWebpackPlugin({
       filename: 'config.html',
       chunks: ['config'],

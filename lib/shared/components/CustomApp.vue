@@ -31,8 +31,8 @@ export default {
     enabled: false,
     notification: false,
     window: {
-      minHeight: 100,
-      minWidth: 100
+      autoHeight: true,
+      autoWidth: true
     }
   }),
 

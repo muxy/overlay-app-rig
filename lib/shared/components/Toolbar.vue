@@ -3,12 +3,12 @@
     <div class="toolbar-container" :class="toolbarPosition">
       <div class="toolbar">
         <ul class="items">
-          <li class="toolbar-app logo" ref="logo" @click="toggleTwichIDShareMessage">
+          <li class="toolbar-app logo" ref="logo" key="logo" @click="toggleTwichIDShareMessage">
             <ui-tooltip trigger="logo" position="left middle">Overlay by Muxy</ui-tooltip>
             <div class="item"></div>
           </li>
 
-          <toolbar-app v-for="a in activeApps" :data="a" :id="a.id" :name="a.name"
+          <toolbar-app v-for="a in activeApps" :data="a" :id="a.id" :name="a.name" :key="a.id"
             :icon="a.icon" :notification="a.notification"></toolbar-app>
         </ul>
       </div>
