@@ -1,11 +1,11 @@
 {
   "id": "my-awesome-app",
   "name": "My Awesome App",
-  "icon": "static/apps/my-awesome-app/logo.png",
+  "icon": "static/apps/my-awesome-app/logo.svg",
   "window": "moveable",
-  "viewer": "MyAwesomeApp.vue",
-  "config": "MyAwesomeAppConfig.vue",
-  "live": "MyAwesomeAppLive.vue",
+  "viewer": "MyAwesomeApp",
+  "config": "MyAwesomeAppConfig",
+  "live": "MyAwesomeAppLive",
   "testing_channel": "126955211",
   "broadcaster_whitelist": ["126955211", "89319907"]
 }

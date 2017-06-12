@@ -4,10 +4,10 @@
       :min-width="window.minWidth" :min-height="window.minHeight"
       :auto-height="window.autoHeight" :auto-width="window.autoWidth"
       :movable="window.movable" :id="id">
-      <component :id="id" :is="type" :parent-data="$data" @alter-window="alterWindow" :show="show"></component>
+      <component :id="id" :is="id" :parent-data="$data" @alter-window="alterWindow" :show="show"></component>
     </window>
 
-    <component v-else :id="id" :is="type" :parent-data="$data" :show="show"></component>
+    <component v-else :id="id" :is="id" :parent-data="$data" :show="show"></component>
   </div>
 </template>
 
@@ -19,7 +19,7 @@ import DevApp from 'app//* @echo viewer */';
 
 let localComponents = {
   Window,
-  '/* @echo type */': DevApp
+  '/* @echo id */': DevApp
 };
 
 export default {

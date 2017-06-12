@@ -152,6 +152,7 @@ body.mouse-in .toolbar-container .items .toolbar-app {
       };
 
       .logo .item {
+        color: white;
         font-family: muxy;
 
         // https://fvsch.com/code/css-locks/

@@ -28,8 +28,6 @@ import CustomApp from 'shared/components/CustomApp';
 // Developer app
 import * as AppConfig from 'app/config';
 
-console.log(AppConfig);
-
 // App object
 export default {
   name: 'app',
@@ -50,8 +48,6 @@ export default {
       const AppComponent = Vue.extend(_.extend(CustomApp, { parent: this }));
       new AppComponent({ data: AppConfig, store: this.$store }).$mount(); // eslint-disable-line no-new
 
-      // Only store the POJO in vuex, otherwise we have a
-      // circular reference in `app.$store`.
       this.$store.commit(Mutations.ADD_APP, AppConfig);
     }
   },
@@ -69,22 +65,8 @@ export default {
   mounted() {
     const bodyEl = document.querySelector('body');
 
-    if (this.$store.getters.ready) {
-      this.addAvailableApps();
-      this.show = true;
-    } else {
-      const stopWatching = this.$store.watch(state => state.ready, (ready) => {
-        if (ready) {
-          stopWatching();
-          this.addAvailableApps();
-          this.show = true;
-
-          setInterval(() => {
-            this.$store.state.analytics.sendEvent('video', 'pulse', 1);
-          }, DATA_PULSE_TIMEOUT);
-        }
-      });
-    }
+    this.addAvailableApps();
+    this.show = true;
 
     // Watch for all click events.
     window.addEventListener('click', (event) => {
