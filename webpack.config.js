@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const _ = require('lodash');
+const AppConfig = require('./src/config.json');
 
 const port = process.env.PORT || 9000;
 
@@ -67,7 +69,7 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader!preprocess-loader?' + JSON.stringify(_.extend(AppConfig, { ppOptions: { type:'js' }})),
       },
       {
         test: /\.js$/,
@@ -81,6 +83,14 @@ module.exports = {
       {
         test: /\.html$/,
         use: ['html-loader']
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: path.posix.join('static', 'fonts/[name].[ext]')
+        }
       }
     ]
   }

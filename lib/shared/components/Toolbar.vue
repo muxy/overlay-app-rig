@@ -58,11 +58,9 @@ import { mapGetters, mapState } from 'vuex';
 
 import ToolbarApp from './ToolbarApp';
 
-const UiTooltip = window.KeenUI.UiTooltip;
-
 export default {
   name: 'toolbar',
-  components: { ToolbarApp, UiTooltip },
+  components: { ToolbarApp },
   data: () => ({
     showTwitchIDShareMessage: false
   }),

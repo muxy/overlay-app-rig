@@ -12,12 +12,9 @@
 <script>
 import { Mutations } from 'shared/js/store';
 
-const UiAlert = window.KeenUI.UiAlert;
-
 export default {
   name: 'error',
   props: ['message', 'translucent'],
-  components: { UiAlert },
 
   methods: {
     reload() {

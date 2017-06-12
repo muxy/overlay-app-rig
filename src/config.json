@@ -9,7 +9,10 @@
   "window": {
     "autoHeight": true,
     "autoWidth": true,
-    "movable": false,
+    "movable": true,
     "center": false
-  }
+  },
+  "viewerComponent": "MyAwesomeApp.vue",
+  "settingsComponent": "MyAwesomeAppConfig.vue",
+  "liveComponent": "MyAwesomeAppLive.vue"
 }

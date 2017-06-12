@@ -1,0 +1,104 @@
+// Normalize
+@import '~normalize-scss/sass/normalize';
+
+// Keen UI
+@import '~keen-ui/dist/keen-ui.css';
+
+// Font-awesome
+// $fa-font-path: '../../node_modules/font-awesome/fonts/';
+// @import '~font-awesome/scss/font-awesome';
+
+// Color Variables
+@import './colors';
+
+// Muxy font
+@font-face {
+  font-family: muxy;
+  src: url('../assets/fonts/muxy/muxy.woff');
+}
+
+// Icons
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "muxy" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-donate:before {
+  content: "a";
+}
+.icon-follow:before {
+  content: "b";
+}
+.icon-hosted:before {
+  content: "c";
+}
+.icon-subscribe:before {
+  content: "d";
+}
+.icon-character-mark:before {
+  content: "e";
+}
+.icon-character-mark-low:before {
+  content: "f";
+}
+.icon-character-mark-border:before {
+  content: "g";
+}
+.icon-character-mark-low-border:before {
+  content: "h";
+}
+.icon-cube:before {
+  content: "i";
+}
+.icon-cheer:before {
+  content: "j";
+}
+
+// Fill screen, no-margin.
+html,
+body {
+  height: 100%;
+  width: 100%;
+
+  margin: 0;
+}
+
+// Fix fonts for small text sizes.
+body {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateZ(0);
+
+  font-size: 14px;
+  color: $body-color;
+}
+
+
+// Default link styling
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:active { color: $link-color-active; }
+  &:hover { color: $link-color-hover; }
+}
+
+// Keen UI Resets
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}

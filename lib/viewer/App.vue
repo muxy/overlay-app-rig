@@ -46,87 +46,20 @@ export default {
     }),
 
     addAvailableApps() {
-      const appList = this.$store.getters.option('apps') || [];
+      AppConfig.enabled = true;
+      const AppComponent = Vue.extend(_.extend(CustomApp, { parent: this }));
+      new AppComponent({ data: AppConfig, store: this.$store }).$mount(); // eslint-disable-line no-new
 
-      // Create Vue objects for all available apps and add them to vuex.
-      _.each(AllApps, (data) => {
-        if (data.available) {
-          try {
-            data.enabled = _.includes(appList, data.id) || Globals.MOCK_DATA;
-            const AppComponent = Vue.extend(_.extend(CustomApp, { parent: this }));
-            new AppComponent({ data, store: this.$store }).$mount(); // eslint-disable-line no-new
-
-            // Only store the POJO in vuex, otherwise we have a
-            // circular reference in `app.$store`.
-            this.$store.commit(Mutations.ADD_APP, data);
-          } catch (err) {
-            this.fail(err.toString());
-          }
-        }
-      });
+      // Only store the POJO in vuex, otherwise we have a
+      // circular reference in `app.$store`.
+      this.$store.commit(Mutations.ADD_APP, AppConfig);
     }
   },
 
   // As soon as the app is created, set up the state client, analytics and user
   // objects. Also start listening for configuration changes.
   created() {
-    // Only allow 15 seconds for user auth.
-    const failedAuth = setTimeout(() => {
-      this.fail('Could not authorize this account.');
-    }, 15000);
-
-    Ext.onAuthorized((auth) => {
-      if (!auth) {
-        this.fail(`Received null auth token: ${JSON.stringify(auth)}.`);
-        return;
-      }
-
-      if (this.$store.getters.ready) {
-        this.$store.getters.user.updateAuth(this.$store, auth);
-      } else {
-        // First time auth callback set up the world.
-        clearTimeout(failedAuth);
-
-        const client = new StateClient(this.$store, config.extension_id,
-          auth.token, auth.channelId);
-        this.$store.commit(Mutations.SET_STATE_CLIENT, client);
-
-        const analytics = new Analytics(this.$store, auth.userId);
-        this.$store.commit(Mutations.SET_ANALYTICS_CLIENT, analytics);
-
-        const user = new User(this.$store, client, auth);
-        this.$store.commit(Mutations.SET_USER, user);
-
-        Messenger.listen(Events.CHANNEL_OPTIONS_CHANGE, (channelOptions) => {
-          this.$store.commit(Mutations.UPDATE_CHANNEL_OPTIONS, channelOptions);
-        });
-
-        client.loaded.then(() => {
-          this.$store.commit(Mutations.READY);
-        }).catch((err) => {
-          this.fail(err);
-        });
-      }
-    });
-
-    Ext.onContext((context) => {
-      this.$store.commit(Mutations.SET_MODE, context.mode);
-      // Set Video Mode
-      if (context.isFullScreen) {
-        this.$store.commit(Mutations.SET_USER_VIDEOMODE, 'fullscreen');
-      } else if (context.isTheatreMode) {
-        this.$store.commit(Mutations.SET_USER_VIDEOMODE, 'theatre');
-      } else {
-        this.$store.commit(Mutations.SET_USER_VIDEOMODE, 'default');
-      }
-      this.$store.commit(Mutations.SET_USER_GAME, context.game);
-      // Emit buffering Event
-      if (context.bufferSize < 1) {
-        this.$store.state.analytics.sendEvent('video', 'buffer', 1);
-      }
-      this.$store.commit(Mutations.SET_USER_BITRATE, Math.round(context.bitrate));
-      this.$store.commit(Mutations.SET_USER_LATENCY, context.hlsLatencyBroadcaster);
-    });
+      this.$store.commit(Mutations.READY);
   },
 
   // Once the main app has been mounted, run through all enabled apps
@@ -201,6 +134,8 @@ export default {
 body {
   height: 100%;
   width: 100%;
+
+  background-color: black;
 
   // If the mouse is over the extension but timed-out, hide it.
   &.mouse-out:hover { cursor: none; }
