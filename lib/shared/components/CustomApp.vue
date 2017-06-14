@@ -15,7 +15,7 @@
 import Window from 'shared/components/Window';
 import _ from 'lodash';
 
-import DevApp from 'app//* @echo viewerComponent */';
+import DevApp from 'app//* @echo viewer */';
 
 let localComponents = {
   Window,

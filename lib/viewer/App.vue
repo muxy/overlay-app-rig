@@ -56,10 +56,12 @@ export default {
     }
   },
 
-  // As soon as the app is created, set up the state client, analytics and user
-  // objects. Also start listening for configuration changes.
   created() {
+    const muxySDK = new window.MuxyExtensionsSDK('extension_id', {testAppID: AppConfig.id, testChannelID: AppConfig.testing_channel});
+    muxySDK.loaded().then(() => {
+      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.READY);
+    });
   },
 
   // Once the main app has been mounted, run through all enabled apps
