@@ -2,31 +2,29 @@
   <li v-if="data.icon" :id="data.id" class="toolbar-app app" ref="app">
     <ui-tooltip trigger="app" position="left middle">{{ data.name }}</ui-tooltip>
     <div class="item" @click="focus" :class="{ notification: data.notification }">
-      <img v-if="data.iconFile" :src="data.iconFile" class="icon" />
-
-      <i v-else class="fa fa-fw" :class="data.icon"></i>
+      <img :src="data.icon" class="icon" />
     </div>
   </li>
 </template>
 
 <script>
-import { Mutations } from 'shared/js/store';
+  import { Mutations } from 'shared/js/store';
 
-export default {
-  name: 'toolbar-app',
-  props: {
-    data: Object
-  },
+  export default {
+    name: 'toolbar-app',
+    props: {
+      data: Object
+    },
 
-  methods: {
-    focus(event) {
-      event.preventDefault();
-      event.stopPropagation();
+    methods: {
+      focus(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-      this.$store.commit(Mutations.TOGGLE_APP, { appID: this.data.id });
+        this.$store.commit(Mutations.TOGGLE_APP, { appID: this.data.id });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">

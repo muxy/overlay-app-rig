@@ -2,7 +2,7 @@
   "id": "my-awesome-app",
   "name": "My Awesome App",
   "icon": "static/apps/my-awesome-app/logo.svg",
-  "window": "moveable",
+  "window": "movable",
   "viewer": "MyAwesomeApp",
   "config": "MyAwesomeAppConfig",
   "live": "MyAwesomeAppLive",

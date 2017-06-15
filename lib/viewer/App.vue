@@ -40,6 +40,7 @@ export default {
 
     addAvailableApps() {
       AppConfig.enabled = true;
+      AppConfig.available = true;
       const AppComponent = Vue.extend(_.extend(CustomApp, { parent: this }));
       new AppComponent({ data: AppConfig, store: this.$store }).$mount(); // eslint-disable-line no-new
 
@@ -123,8 +124,6 @@ export default {
 body {
   height: 100%;
   width: 100%;
-
-  background-color: black;
 
   // If the mouse is over the extension but timed-out, hide it.
   &.mouse-out:hover { cursor: none; }
