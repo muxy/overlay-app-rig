@@ -13,12 +13,7 @@ import Vuex from 'vuex';
 
 import * as config from 'manifest';
 
-import Analytics from 'shared/js/analytics';
-import Ext from 'shared/js/twitch-ext';
-import Messenger, { Events } from 'shared/js/messenger';
-import StateClient from 'shared/js/state-client';
 import { Mutations } from 'shared/js/store';
-import User from 'shared/js/user';
 
 // Components
 import Error from 'shared/components/Error';
@@ -65,8 +60,18 @@ export default {
   mounted() {
     const bodyEl = document.querySelector('body');
 
-    this.addAvailableApps();
-    this.show = true;
+    if (this.$store.getters.ready) {
+      this.addAvailableApps();
+      this.show = true;
+    } else {
+      const stopWatching = this.$store.watch(state => state.ready, (ready) => {
+        if (ready) {
+          stopWatching();
+          this.addAvailableApps();
+          this.show = true;
+        }
+      });
+    }
 
     // Watch for all click events.
     window.addEventListener('click', (event) => {
