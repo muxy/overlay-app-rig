@@ -49,7 +49,7 @@ export default {
   }
 
   .viewer {
-    height: 400px; width: 100%;
+    height: 800px; width: 100%;
     overflow: hidden;
 
     .overlay {
