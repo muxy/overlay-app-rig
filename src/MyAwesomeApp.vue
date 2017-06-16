@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'my-awesome-app'
+  name: 'my_awesome_app'
 };
 </script>
 
