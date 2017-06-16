@@ -33,12 +33,9 @@ export default {
       window.anime({
         targets: this.$el,
         top: {
-          value: [-dims.height, 0],
+          value: [-dims.height, 1],
           duration: 500,
           easing: 'easeInOutQuart'
-        },
-        complete: () => {
-          this.$store.state.analytics.sendEvent('show', this.id, 1);
         }
       });
     },
@@ -48,12 +45,9 @@ export default {
       window.anime({
         targets: this.$el,
         top: {
-          value: [0, -dims.height - 10],
+          value: [0, -dims.height - 1],
           duration: 500,
           easing: 'easeInOutQuart'
-        },
-        complete: () => {
-          this.$store.state.analytics.sendEvent('hide', this.id, 1);
         }
       });
     }
@@ -79,10 +73,7 @@ export default {
 <style lang="scss">
 .toast {
   position: fixed;
+  left: 0;
   z-index: 900;
-
-  &.animate-in {
-    transition: margin 1s;
-  }
 }
 </style>

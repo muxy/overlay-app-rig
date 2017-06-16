@@ -40,16 +40,6 @@ export default {
     }
   },
 
-  watch: {
-    show(showing) {
-      if (showing) {
-        this.$store.state.analytics.sendEvent('show', this.id, 1);
-      } else {
-        this.$store.state.analytics.sendEvent('hide', this.id, 1);
-      }
-    }
-  },
-
   methods: {
     moveOnScreen() {
       if (!this.show) {
