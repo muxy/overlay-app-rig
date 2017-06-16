@@ -31,26 +31,26 @@ export default {
 
 <style lang="scss">
 .toolbar-app {
-    background-color: #222;
-    color: white;
-    cursor: pointer;
-    padding: 5px;
-    text-align: center;
-    user-select: none;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  text-align: center;
+  user-select: none;
 
-    &:hover { background-color: #444; }
+  &:hover { background-color: #444; }
 
-    .item {
-      padding: 2px;
-    }
+  .item {
+    padding: 2px;
+  }
 
-    img.icon { min-width: 15px; width: 2.3vw; max-width: 25px; }
-    i { font-size: calc(1.3rem + ((10vw - 5em)/10)); }
+  img.icon { min-width: 15px; width: 2.3vw; max-width: 25px; }
+  i { font-size: calc(1.3rem + ((10vw - 5em)/10)); }
 
-    &.notification {
-      background-color: darken(firebrick, 10%);
+  &.notification {
+    background-color: darken(firebrick, 10%);
 
-      &:hover { background-color: firebrick; }
-    }
+    &:hover { background-color: firebrick; }
+  }
 }
 </style>
