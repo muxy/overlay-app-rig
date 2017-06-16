@@ -7,9 +7,15 @@
 <script>
 import Popper from 'popper.js';
 
+import { Mutations } from 'shared/js/store';
+
 export default {
-  name: 'popper',
+  name: 'popper-window',
   props: {
+    id: {
+      type: String,
+      required: true
+    },
     show: {
       type: Boolean,
       required: false,
@@ -18,18 +24,16 @@ export default {
     placement: {
       type: String,
       required: false,
-      default: 'right-end'
+      default: 'auto-end'
     },
-    popper: null,
-    content: {
-      type: String,
+    options: {
+      type: Object,
       required: false,
-      default: ''
+      default: {}
     }
   },
 
   data: () => ({
-    popperID: null,
     popperEl: null
   }),
 
@@ -37,27 +41,21 @@ export default {
     show(showing) {
       if (showing) {
         this.$nextTick(() => {
+          this.destroyPopper();
           this.init();
+          document.addEventListener('click', this.closePopper);
         });
-      }
-    },
-
-    popper() {
-      if (this.popper) {
-        this.destroyPopper();
-        this.init();
       } else {
         this.destroyPopper();
+        document.removeEventListener('click', this.closePopper);
       }
     }
   },
 
   mounted() {
-    this.$nextTick(() => {
-      if (this.show) {
-        this.init();
-      }
-    });
+    if (this.show) {
+      this.init();
+    }
   },
 
   unmounted() {
@@ -66,29 +64,25 @@ export default {
 
   methods: {
     init() {
-      if (this.popper) {
-        this.popperEl = new Popper(this.popper, this.$el, {
-          placement: this.placement,
-          removeOnDestroy: true
-        });
-      }
+      const triggerEl = document.querySelector(`#${this.id}.toolbar-app`);
+      this.popperEl = new Popper(triggerEl, this.$el, {
+        placement: this.placement,
+        removeOnDestroy: false
+      });
+
+      document.querySelector('.app-container').appendChild(this.$el);
     },
 
     destroyPopper() {
       if (this.popperEl) {
+        document.querySelector('.app-container').removeChild(this.$el);
         this.popperEl.destroy();
         this.popperEl = null;
       }
     },
 
-    uuid4() {
-      // Usually a bitwise operator is a mistyped '&&', etc. So disable the error
-      // here, but keep it globally.
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        const r = Math.random() * (16 | 0); // eslint-disable-line no-bitwise
-        const v = c === 'x' ? r : (r & (0x3 | 0x8)); // eslint-disable-line no-bitwise
-        return v.toString(16);
-      });
+    closePopper() {
+      this.$store.commit(Mutations.HIDE_APP, { appID: this.id });
     }
   }
 };
