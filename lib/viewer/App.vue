@@ -11,8 +11,6 @@ import _ from 'lodash';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import * as config from 'manifest';
-
 import { Mutations } from 'shared/js/store';
 
 // Components
