@@ -1,5 +1,5 @@
 {
-  "id": "my-awesome-app",
+  "id": "my_awesome_app",
   "name": "My Awesome App",
   "icon": "static/apps/my-awesome-app/logo.svg",
   "window": "movable",
