@@ -11,11 +11,11 @@
 <script>
 import XMLHttpRequestPromise from 'xhr-promise';
 
-import { Mutations } from 'shared/js/store';
+import AppMixin from 'shared/js/app-mixin';
 
 export default {
   name: 'my_awesome_app',
-  props: ['id'],
+  mixins: [AppMixin],
 
   data: () => ({
     showing: false,
@@ -26,17 +26,13 @@ export default {
 
   methods: {
     showToast() {
-      this.$nextTick(() => {
-        this.$store.commit(Mutations.SHOW_APP, { appID: this.id });
-        this.showing = true;
-      });
+      this.show();
+      this.showing = true;
     },
 
     hideToast() {
-      this.$nextTick(() => {
-        this.$store.commit(Mutations.HIDE_APP, { appID: this.id });
-        this.showing = false;
-      });
+      this.hide();
+      this.showing = false;
     }
   },
 
