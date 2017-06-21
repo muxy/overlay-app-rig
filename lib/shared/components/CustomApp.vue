@@ -46,7 +46,6 @@ const WINDOW_TYPES = {
   TOAST: 'toast'
 };
 
-
 export default {
   name: 'custom-app',
   components: localComponents,
