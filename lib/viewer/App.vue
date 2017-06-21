@@ -25,9 +25,7 @@ import * as AppConfig from 'app/config';
 export default {
   name: 'app',
   components: { Error, Toolbar },
-  data: () => ({
-    show: false
-  }),
+  data: () => ({ show: false }),
 
   computed: Vuex.mapState(['error']),
 
@@ -47,7 +45,7 @@ export default {
   },
 
   created() {
-    const muxySDK = new window.MuxyExtensionsSDK('extension_id', {testAppID: AppConfig.id, testChannelID: AppConfig.testing_channel});
+    const muxySDK = Muxy.SDK(AppConfig.id);
     muxySDK.loaded().then(() => {
       this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.READY);

@@ -1,7 +1,7 @@
 {
-  "name": "muxy-extension-skeleton",
-  "version": "1.0.0",
-  "description": "Skeleton project for developing a Twitch Extension with Muxy.",
+  "name": "muxy-overlay-app-skeleton",
+  "version": "0.0.1",
+  "description": "Skeleton project for developing a Twitch Overlay App with Muxy.",
   "main": "index.js",
   "scripts": {
     "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
