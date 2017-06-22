@@ -1,58 +1,35 @@
 <template>
-    <div id="app">
-        <error v-if="error" :message="error"></error>
-        <router-view v-else></router-view>
-    </div>
+  <div id="app">
+    <error v-if="error" :message="error"></error>
+    <live></live>
+  </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
 
 import Error from 'shared/components/Error';
+import { Mutations } from 'shared/js/store';
 
 import * as AppConfig from 'app/config';
+
+import Live from './components/Live';
 
 // App object
 export default {
   name: 'app',
+  components: { Error, Live },
 
-  components: { Error },
-
-  computed: {
-    ...mapState(['error']),
-    ...mapGetters(['option', 'liveApps'])
-  },
-
-  methods: {
-    showFirstAppSettings() {
-      if (this.$store.getters.liveApps.length > 0) {
-        this.$router.push({ name: 'live-app' });
-      }
-    }
-  },
+  computed: mapState(['error']),
 
   created() {
-    this.$router.push('/');
-
     Muxy.testJWTRole = 'broadcaster';
-    const muxySDK = new Muxy.SDK(AppConfig.id);
+    const muxySDK = Muxy.SDK(AppConfig.id);
+    this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
+
     muxySDK.loaded().then(() => {
-      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.READY);
     });
-  },
-
-  mounted() {
-    if (this.$store.getters.ready) {
-      this.showFirstAppSettings();
-    } else {
-      const stopWatching = this.$store.watch(state => state.ready, (ready) => {
-        if (ready) {
-          stopWatching();
-          this.showFirstAppSettings();
-        }
-      });
-    }
   }
 };
 </script>

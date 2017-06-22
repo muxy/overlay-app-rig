@@ -7,8 +7,7 @@
     </div>
 
     <div class="config-container">
-      <component :id="appID" :is="appID"
-        v-on:save="saveAppOptions">
+      <component :id="appID" :is="appID" v-on:save="saveAppOptions">
       </component>
     </div>
   </div>
@@ -31,7 +30,6 @@ let localComponents = {
 
 export default {
   name: 'config',
-
   components: localComponents,
 
   data: () => ({
@@ -100,6 +98,7 @@ export default {
 
   .ui-alert {
     background-color: rgba(255, 255, 255, 0.97);
+    z-index: 100;
   }
 }
 
