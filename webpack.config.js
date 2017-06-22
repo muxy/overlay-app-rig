@@ -116,7 +116,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: 'babel-loader!preprocess-loader?' + JSON.stringify(_.extend(AppConfig, { ppOptions: { type:'js' }})),
         exclude: /node_modules/
       },
       {
