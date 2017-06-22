@@ -81,23 +81,10 @@ module.exports = {
     }),
     new HtmlWebpackIncludeAssetsPlugin({
       assets: ['vendor/js/keen-ui.min.js', 'vendor/js/anime.min.js'],
-      append: true
+      append: false
     }),
     new FriendlyErrorsPlugin()
   ],
-
-  externals: {
-    animejs: {
-      commonjs: 'animejs',
-      amd: 'animejs',
-      root: 'anime'
-    },
-    'keen-ui': {
-      commonjs: 'keen-ui',
-      amd: 'keen-ui',
-      root: 'KeenUI' // indicates global variable
-    }
-  },
 
   devServer: {
     hot: true,

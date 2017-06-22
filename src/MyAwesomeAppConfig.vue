@@ -1,14 +1,23 @@
 <template>
   <div class="my-awesome-config">
-    <h1>Awesome Message Sending App Configuration</h1>
+    <h1>Awesome Message Sending App<br>Configuration</h1>
 
     <ui-select label="Random Image Type" :options="imageTypeChoices"
       v-model="imageType" @change="saveOptions">
     </ui-select>
 
-    <input type="text" placeholder="Title" v-model="title" />
-    <input type="text" placeholder="Body" v-model="body" />
-    <button @click="sendMessageToAllViewers">Send Message To All Viewers</button>
+    <div class="image-demo">
+      <img :src="demoImageURL" />
+      <em>{{ demoImageURL }}</em>
+    </div>
+
+    <h1>Live Page</h1>
+    <ui-textbox label="Title" v-model="title"></ui-textbox>
+    <ui-textbox label="Message" v-model="body"></ui-textbox>
+
+    <ui-button color="primary" raised @click="sendMessageToAllViewers">
+      Send Message To All Viewers
+    </ui-button>
   </div>
 </template>
 
@@ -17,11 +26,12 @@ import AppMixin from 'shared/js/app-mixin';
 
 const UiButton = window.KeenUI.UiButton;
 const UiSelect = window.KeenUI.UiSelect;
+const UiTextbox = window.KeenUI.UiTextbox;
 
 const imageTypeChoices = [
-  { label: 'Abstract', value: 'abstract' },
-  { label: 'Animals', value: 'animals' },
-  { label: 'City', value: 'city' }
+  'Abstract', 'Animals', 'Business', 'Cats', 'City',
+  'Fashion', 'Food', 'Nature', 'Nightlife', 'Sports',
+  'People', 'Technics', 'Transport'
 ];
 
 export default {
@@ -30,18 +40,25 @@ export default {
 
   components: {
     UiButton,
-    UiSelect
+    UiSelect,
+    UiTextbox
   },
 
   data: () => ({
     imageTypeChoices,
     title: 'Awesome Message',
     body: 'This is a very important message for all viewers',
-    imageType: 'animals'
+    imageType: ''
   }),
 
+  computed: {
+    demoImageURL() {
+      return `https://lorempixel.com/64/64/${this.imageType.toLowerCase()}`;
+    }
+  },
+
   created() {
-    this.imageType = this.option('my_awesome_app', 'animals');
+    this.imageType = this.option('my_awesome_app.image_type', imageTypeChoices[1]);
   },
 
   methods: {
@@ -49,14 +66,16 @@ export default {
       this.muxy.broadcast('show_awesome_message', {
         title: this.title || 'Awesome Message',
         body: this.body || 'This is a very important message for all viewers',
-        image: `https://lorempixel.com/64/64/${this.imageType}#${new Date().getTime()}`
+        image: `https://lorempixel.com/64/64/${this.imageType.toLowerCase()}#${new Date().getTime()}`
       });
     },
 
     saveOptions() {
+      console.log('Saving options');
       const my_awesome_app = {
         image_type: this.imageType
       };
+      console.log({ my_awesome_app });
 
       this.$emit('save', { my_awesome_app });
     }
@@ -66,10 +85,21 @@ export default {
 
 <style lang="scss">
 .my-awesome-config {
-  margin: 10px;
+  margin: 0;
+  padding: 10px;
 
   h1 {
+    margin: 0;
     text-align: center;
+  }
+
+  .image-demo {
+    margin: 10px 0;
+
+    img {
+      display: block;
+      margin-bottom: 5px;
+    }
   }
 
   input {
