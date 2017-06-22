@@ -18,29 +18,42 @@ export default {
   mixins: [AppMixin],
 
   data: () => ({
-    showing: false,
     imgSrc: '',
     title: '',
-    body: ''
+    body: '',
+    messageHandler: null
   }),
 
   methods: {
-    showToast() {
-      this.show();
-      this.showing = true;
-    },
+    showIncomingMessage(data) {
+      console.log('Received message');
+      console.log(data);
+      this.imgSrc = data.image;
+      this.title = data.title;
+      this.body = data.body;
 
-    hideToast() {
-      this.hide();
-      this.showing = false;
+      // Wait for image to load.
+      const imgEl = this.$el.querySelector('img');
+      if (imgEl.complete) {
+        this.show();
+        setTimeout(this.hide, 10000);
+      } else {
+        imgEl.addEventListener('load', () => {
+          this.show();
+          setTimeout(this.hide, 10000);
+        });
+      }
     }
   },
 
-  mounted() {
+  created() {
+    this.messageHandler = this.muxy.listen('show_awesome_message', this.showIncomingMessage);
+
     // Test toasts with animal images and bacon.
+    /*
     setInterval(() => {
-      if (this.showing) {
-        this.hideToast();
+      if (this.show) {
+        this.hide();
       } else {
         this.imgSrc = `https://lorempixel.com/64/64/animals#${new Date().getTime()}`;
 
@@ -52,7 +65,7 @@ export default {
         }).catch((err) => {
           this.title = 'Error';
           this.body = err;
-          this.showToast();
+          this.show();
         }).then((resp) => {
           const parts = resp.responseText[0].split('. ');
           this.title = parts[0];
@@ -60,15 +73,22 @@ export default {
 
           const imgEl = this.$el.querySelector('img');
           if (imgEl.complete) {
-            this.showToast();
+            this.show();
           } else {
             imgEl.addEventListener('load', () => {
-              this.showToast();
+              this.show();
             });
           }
         });
       }
     }, 10000);
+    */
+  },
+
+  destroyed() {
+    if (this.messageHandler) {
+      this.muxy.unlisten(this.messageHandler);
+    }
   }
 };
 </script>
