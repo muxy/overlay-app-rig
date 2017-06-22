@@ -91,13 +91,11 @@ module.exports = {
       commonjs: 'animejs',
       amd: 'animejs',
       root: 'anime'
-    /* TODO: Breaks loading for some reason.
     },
     'keen-ui': {
       commonjs: 'keen-ui',
       amd: 'keen-ui',
       root: 'KeenUI' // indicates global variable
-    */
     }
   },
 
