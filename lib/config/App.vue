@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <error v-if="error" :message="error"></error>
-    <my-awesome-app-config></my-awesome-app-config>
+    <config v-if="ready"></config>
   </div>
 </template>
 
@@ -11,23 +11,24 @@ import { mapState } from 'vuex';
 import Error from 'shared/components/Error';
 import { Mutations } from 'shared/js/store';
 
-// Developer app
 import * as AppConfig from 'app/config';
-import MyAwesomeAppConfig from 'app/MyAwesomeAppConfig';
+
+import Config from './components/Config';
 
 // App object
 export default {
   name: 'app',
-  components: { Error, MyAwesomeAppConfig },
+  components: { Error, Config },
+  data: () => ({ ready: false }),
   computed: mapState(['error']),
 
   created() {
     Muxy.testJWTRole = 'broadcaster';
-
     const muxySDK = Muxy.SDK(AppConfig.id);
     this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
     muxySDK.loaded().then(() => {
       this.$store.commit(Mutations.READY);
+      this.ready = true;
     });
   }
 };
