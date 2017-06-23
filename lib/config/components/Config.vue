@@ -7,7 +7,7 @@
     </div>
 
     <div class="config-container">
-      <component :id="appID" :is="appID" v-on:save="saveAppOptions">
+      <component :id="appID" :is="appID" v-on:save-promise="handleSavePromise">
       </component>
     </div>
   </div>
@@ -15,8 +15,7 @@
 
 <script type="text/javascript">
 import _ from 'lodash';
-import { mapGetters } from 'vuex';
-
+import { mapGetters, mapState } from 'vuex';
 import { Mutations } from 'shared/js/store';
 
 import * as AppConfig from 'app/config';
@@ -75,15 +74,17 @@ export default {
       }, 5000);
     },
 
-    saveAppOptions(options) {
-      this.$store.commit(Mutations.SET_APP_CHANNEL_OPTIONS, options);
-      this.muxy.client.setChannelState('ka3y28rrgh2f533mxt9ml37fv6zb8k', this.channelOptions)
-        .then(() => {
-          this.muxy.broadcast(Events.CHANNEL_OPTIONS_CHANGE, this.channelOptions);
-          this.saveSuccess();
-        }).catch(() => {
-          this.saveFailure();
-        });
+    handleSavePromise(promise) {
+      if (!promise) {
+        this.saveFailure();
+        return;
+      }
+
+      promise.then(() => {
+        this.saveSuccess();
+      }).catch(() => {
+        this.saveFailure();
+      });
     }
   }
 };

@@ -1,5 +1,6 @@
 <template>
   <div class="my-awesome-live">
+    <span>Current Image Category: {{ imageType }}</span>
     <ui-textbox label="Title" v-model="title"></ui-textbox>
     <ui-textbox label="Message" v-model="body"></ui-textbox>
 
@@ -26,14 +27,22 @@ export default {
 
   data: () => ({
     title: '',
-    body: ''
+    body: '',
+    imageType: '',
   }),
+
+  created() {
+    this.imageType = this.option('image_type', 'Animals');
+    this.optionWatch('image_type', (n) => {
+      this.imageType = n;
+    });
+  },
 
   methods: {
     sendMessageToAllViewers() {
-      const imageType = this.option('my_awesome_app.image_type', 'animals');
+      const imageType = this.option('image_type', 'Animals');
 
-      this.muxy.broadcast('show_awesome_message', {
+      this.muxy.send('show_awesome_message', {
         title: this.title,
         body: this.body,
         image: `https://lorempixel.com/64/64/${imageType.toLowerCase()}#${new Date().getTime()}`

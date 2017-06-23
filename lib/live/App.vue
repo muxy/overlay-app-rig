@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <error v-if="error" :message="error"></error>
-    <live></live>
+    <live v-if="ready"></live>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import { mapState, mapGetters } from 'vuex';
 
 import Error from 'shared/components/Error';
-import { Mutations } from 'shared/js/store';
+import { Mutations, Events } from 'shared/js/store';
 
 import * as AppConfig from 'app/config';
 
@@ -20,7 +20,7 @@ export default {
   name: 'app',
   components: { Error, Live },
 
-  computed: mapState(['error']),
+  computed: mapState(['error', 'ready']),
 
   created() {
     Muxy.testJWTRole = 'broadcaster';
@@ -28,7 +28,23 @@ export default {
     this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
 
     muxySDK.loaded().then(() => {
-      this.$store.commit(Mutations.READY);
+      this.$store.commit(Mutations.SET_USER, muxySDK.user);
+
+      muxySDK.getAllState().then((state) => {
+        this.$store.commit(Mutations.SET_APP_ALL_OPTIONS, {
+          id: AppConfig.id,
+          options: state
+        });
+
+        this.$store.commit(Mutations.READY);
+      });
+
+      muxySDK.listen(Events.CHANNEL_OPTIONS_CHANGE, (options) => {
+        this.$store.commit(Mutations.SET_APP_CHANNEL_OPTIONS, {
+          id: AppConfig.id,
+          options
+        });
+      });
     });
   }
 };
