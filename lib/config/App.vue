@@ -9,7 +9,7 @@
 import { mapState } from 'vuex';
 
 import Error from 'shared/components/Error';
-import { Mutations } from 'shared/js/store';
+import { Mutations, Events } from 'shared/js/store';
 
 import * as AppConfig from 'app/config';
 
@@ -19,16 +19,31 @@ import Config from './components/Config';
 export default {
   name: 'app',
   components: { Error, Config },
-  data: () => ({ ready: false }),
-  computed: mapState(['error']),
+  data: () => ({}),
+  computed: mapState(['error', 'ready']),
 
   created() {
     Muxy.testJWTRole = 'broadcaster';
     const muxySDK = Muxy.SDK(AppConfig.id);
     this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
+
     muxySDK.loaded().then(() => {
-      this.$store.commit(Mutations.READY);
-      this.ready = true;
+      this.$store.commit(Mutations.SET_USER, muxySDK.user);
+      muxySDK.getAllState().then((state) => {
+        this.$store.commit(Mutations.SET_APP_ALL_OPTIONS, {
+          id: AppConfig.id,
+          options: state
+        });
+
+        this.$store.commit(Mutations.READY);
+      });
+
+      muxySDK.listen(Events.CHANNEL_OPTIONS_CHANGE, (options) => {
+         this.$store.commit(Mutations.SET_APP_CHANNEL_OPTIONS, {
+          id: AppConfig.id,
+          options
+        });
+      });
     });
   }
 };

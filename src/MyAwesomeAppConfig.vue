@@ -1,7 +1,7 @@
 <template>
   <div class="my-awesome-config">
     <ui-select label="Random Image Type" :options="imageTypeChoices"
-      v-model="imageType" @change="saveOptions">
+      v-model="imageType" @change="save">
     </ui-select>
 
     <div class="image-demo">
@@ -13,7 +13,6 @@
 
 <script>
 import AppMixin from 'shared/js/app-mixin';
-
 const UiSelect = window.KeenUI.UiSelect;
 
 const imageTypeChoices = [
@@ -42,16 +41,17 @@ export default {
   },
 
   created() {
-    this.imageType = this.option('my_awesome_app.image_type', imageTypeChoices[1]);
+    this.imageType = this.option('image_type', imageTypeChoices[1]);
+    this.optionWatch('image_type', (n) => {
+      this.imageType = n;
+    });
   },
 
   methods: {
-    saveOptions() {
-      const my_awesome_app = {
+    save() {
+      this.saveChannelOptions({
         image_type: this.imageType
-      };
-
-      this.$emit('save', { my_awesome_app });
+      });
     }
   }
 };

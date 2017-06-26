@@ -11,7 +11,7 @@ import _ from 'lodash';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import { Mutations } from 'shared/js/store';
+import { Mutations, Events } from 'shared/js/store';
 
 // Components
 import Error from 'shared/components/Error';
@@ -46,9 +46,25 @@ export default {
 
   created() {
     const muxySDK = Muxy.SDK(AppConfig.id);
+    this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
+
     muxySDK.loaded().then(() => {
-      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
-      this.$store.commit(Mutations.READY);
+      this.$store.commit(Mutations.SET_USER, muxySDK.user);
+      muxySDK.getAllState().then((state) => {
+        this.$store.commit(Mutations.SET_APP_ALL_OPTIONS, {
+          id: AppConfig.id,
+          options: state
+        });
+
+        this.$store.commit(Mutations.READY);
+      });
+
+      muxySDK.listen(Events.CHANNEL_OPTIONS_CHANGE, (options) => {
+         this.$store.commit(Mutations.SET_APP_CHANNEL_OPTIONS, {
+          id: AppConfig.id,
+          options
+        });
+      });
     });
   },
 
