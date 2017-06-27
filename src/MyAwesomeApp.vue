@@ -1,6 +1,13 @@
 <template>
+  <!-- Your app's template can only have a single top-level element. -->
   <div class="toasty">
+    <!--
+      imgSrc will automatically update with the value of `data.imgSrc`.
+      Element attributes can be bound using the :attr syntax.
+      Text can be inserted with handlebar syntax as in the <h> tags.
+    -->
     <img :src="imgSrc" />
+
     <div class="body">
       <h1>{{ title }}</h1>
       <h2>{{ body }}</h2>
@@ -9,14 +16,27 @@
 </template>
 
 <script>
-import XMLHttpRequestPromise from 'xhr-promise';
+// The <script> tag defines your app's behavior. It is run through babel to convert any ES6
+// functionality to box-stock ES5.
+//
+// This app is the Viewer App. It defines the whole of your app's appearance and behavior
+// that viewers of a stream will experience. It may have a movable window over the stream
+// video, be showable/hideable, or change appearance depending upon actions occuring on
+// the broadcaster's stream!
 
 import AppMixin from 'shared/js/app-mixin';
 
+// This is the main access point to this app.
 export default {
+  // The name field must be your blessed app id and be the same as appears in config.json.
   name: 'my_awesome_app',
+
+  // The AppMixin provides access to several convenience methods, such as the powerful
+  // `option` function.
   mixins: [AppMixin],
 
+  // Any fields added to your `data` object are accessible on `this` in your
+  // class methods or directly in your template elements.
   data: () => ({
     imgSrc: '',
     title: '',
@@ -24,18 +44,24 @@ export default {
     messageHandler: null
   }),
 
+   // Any methods defined here can be called from your template elements.
   methods: {
     showIncomingMessage(data) {
-      console.log('Received message');
-      console.log(data);
       this.imgSrc = data.image;
       this.title = data.title;
       this.body = data.body;
 
-      // Wait for image to load.
+      // You can query the DOM elements directly using the special member `this.$el` which
+      // is a JavaScript reference to your parent DOM element (in this case <div class="toasty">).
       const imgEl = this.$el.querySelector('img');
       if (imgEl.complete) {
+        // `this.show()` is made available from the AppMixin. It will toggle the visibility of your
+        // app. Because we have defined this app as having a window of type `toast`, this will
+        // cause it to drop down from the upper-left corner of the screen.
         this.show();
+
+        // `this.hide()` is another helper method that runs the window hiding functionality. This
+        // will change depending on your chosen window `type`, or you can control it manually.
         setTimeout(this.hide, 10000);
       } else {
         imgEl.addEventListener('load', () => {
@@ -46,12 +72,24 @@ export default {
     }
   },
 
+  // The `created` method is called when your app is first loaded and ready to be populated
+  // with data displayed.
   created() {
+    // `this.muxy.listen()` will establish a callback handler to call whenever the provided event
+    // is received by this viewer. It is scoped to your app id, so even if another app uses the
+    // same message, there will be no cross-communication. Any JSON payload sent with the
+    // event will be passed to the callback function as the first parameter.
     this.messageHandler = this.muxy.listen('show_awesome_message', this.showIncomingMessage);
   },
 
+  // The `destroyed` method is called when your app is being removed from overlay (not when
+  // it is being hidden by the viewer or system, but completely removed). You should do any
+  // cleanup necessary in this method.
   destroyed() {
     if (this.messageHandler) {
+      // `this.muxy.unlisten()` removes the event callback handler. The callback you specified
+      // in the `listen()` function will no longer be called when the specified event
+      // is received.
       this.muxy.unlisten(this.messageHandler);
     }
   }
@@ -59,6 +97,9 @@ export default {
 </script>
 
 <style lang="scss">
+// The style section will be applied to your template above. We are setting `lang="scss"` so
+// that we can use any SCSS features here and have them automatically converted to standard
+// CSS before display.
 .toasty {
   background-color: rgba(40, 40, 40, 0.9);
   display: flex;
