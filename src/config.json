@@ -2,7 +2,10 @@
   "id": "my_awesome_app",
   "name": "My Awesome App",
   "icon": "static/apps/my_awesome_app/logo.svg",
-  "window": "toast",
+  "window": {
+    "type": "toast",
+    "position": "top center"
+  },
   "viewer": "MyAwesomeApp",
   "config": "MyAwesomeAppConfig",
   "live": "MyAwesomeAppLive",

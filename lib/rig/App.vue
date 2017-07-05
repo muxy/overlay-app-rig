@@ -1,7 +1,6 @@
 <template>
   <div class="rig">
     <div class="viewer">
-      <h1 class="title">Viewer App</h1>
       <div class="overlay">
         <iframe class="ext" src="/viewer.html" scrolling="no" sandbox="allow-scripts"></iframe>
         <iframe class="player" src="https://player.twitch.tv/?channel=lirik" scrolling="no"></iframe>

@@ -54,7 +54,8 @@ export default {
     WINDOW_TYPES,
     show: false,
     enabled: false,
-    notification: false
+    notification: false,
+    windowOptions: {}
   }),
 
   computed: {
@@ -68,15 +69,18 @@ export default {
       }
 
       return this.window || WINDOW_TYPES.MOVABLE;
-    },
-
-    windowOptions() {
-      if (typeof this.window === 'object') {
-        return this.window;
-      }
-
-      return {};
     }
+  },
+
+  created() {
+    const key = `apps.${this.id}.window`;
+
+    this.windowOptions = (typeof this.window === 'object') ? this.window : {};
+    this.windowOptions = this.$store.getters.option(key, this.windowOptions);
+
+    this.$store.watch(() => this.$store.getters.option(key), (windowOptions) => {
+      this.windowOptions = windowOptions;
+    });
   }
 };
 </script>
