@@ -1,14 +1,8 @@
 <template>
   <!-- Your app's template can only have a single top-level element. -->
   <div class="toasty">
-    <!--
-      imgSrc will automatically update with the value of `data.imgSrc`.
-      Element attributes can be bound using the :attr syntax.
-      Text can be inserted with handlebar syntax as in the <h> tags.
-    -->
-    <img :src="imgSrc" />
-
     <div class="body">
+      <!-- Mustache template tags will be populated using the exported class's `data` values. -->
       <h1>{{ title }}</h1>
       <h2>{{ body }}</h2>
     </div>
@@ -38,7 +32,6 @@ export default {
   // Any fields added to your `data` object are accessible on `this` in your
   // class methods or directly in your template elements.
   data: () => ({
-    imgSrc: '',
     title: '',
     body: '',
     messageHandler: null
@@ -47,14 +40,21 @@ export default {
    // Any methods defined here can be called from your template elements.
   methods: {
     showIncomingMessage(data) {
-      this.imgSrc = data.image;
       this.title = data.title;
       this.body = data.body;
 
       // You can query the DOM elements directly using the special member `this.$el` which
       // is a JavaScript reference to your parent DOM element (in this case <div class="toasty">).
-      const imgEl = this.$el.querySelector('img');
-      if (imgEl.complete) {
+
+      // First, remove all existing images from the DOM.
+      var imgs = document.getElementsByTagName('img');
+      for (let i = imgs.length - 1; i >= 0; i--) {
+        imgs[i].parentNode.removeChild(imgs[i]);
+      }
+
+      // Manually create and insert new <img> element.
+      const imgEl = document.createElement('img');
+      imgEl.addEventListener('load', () => {
         // `this.show()` is made available from the AppMixin. It will toggle the visibility of your
         // app. Because we have defined this app as having a window of type `toast`, this will
         // cause it to drop down from the upper-left corner of the screen.
@@ -63,12 +63,10 @@ export default {
         // `this.hide()` is another helper method that runs the window hiding functionality. This
         // will change depending on your chosen window `type`, or you can control it manually.
         setTimeout(this.hide, 10000);
-      } else {
-        imgEl.addEventListener('load', () => {
-          this.show();
-          setTimeout(this.hide, 10000);
-        });
-      }
+      });
+      imgEl.src = data.image;
+
+      this.$el.insertBefore(imgEl, this.$el.querySelector('.body'));
     }
   },
 

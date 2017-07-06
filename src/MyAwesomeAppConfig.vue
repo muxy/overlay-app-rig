@@ -7,6 +7,10 @@
       v-model defines the `data` field to update with the chosen field.
       @change will fire the `save` method everytime the user changes option.
     -->
+    <ui-select label="Toast Placement" :options="placementChoices"
+      v-model="placement" @change="save">
+    </ui-select>
+
     <ui-select label="Random Image Type" :options="imageTypeChoices"
       v-model="imageType" @change="save">
     </ui-select>
@@ -40,6 +44,12 @@ import AppMixin from 'shared/js/app-mixin';
 // use any KeenUI element on the broadcaster-facing pages: https://josephuspaye.github.io/Keen-UI
 const UiSelect = window.KeenUI.UiSelect;
 
+const placementChoices = [
+  'Top Left', 'Top Center', 'Top Right',
+  'Middle Left', 'Middle Right',
+  'Bottom Left', 'Bottom Center', 'Bottom Right'
+];
+
 const imageTypeChoices = [
   'Abstract', 'Animals', 'Business', 'Cats', 'City',
   'Fashion', 'Food', 'Nature', 'Nightlife', 'Sports',
@@ -62,6 +72,8 @@ export default {
   // Any fields added to your `data` object are accessible on `this` in your class methods or
   // directly in your template elements.
   data: () => ({
+    placementChoices,
+    placement: placementChoices[1],
     imageTypeChoices,
     imageType: imageTypeChoices[1]
   }),
@@ -78,7 +90,10 @@ export default {
   methods: {
     save() {
       this.saveChannelOptions({
-        image_type: this.imageType
+        image_type: this.imageType,
+        window: {
+          position: this.placement
+        }
       });
     }
   },
@@ -88,13 +103,14 @@ export default {
   created() {
     // You can extract the initial options values using the `option` getters. Channel options
     // will be loaded from the server before your `created` method is called.
+    this.placement = this.option('placement', placementChoices[1]);
     this.imageType = this.option('image_type', imageTypeChoices[1]);
 
     // You can also pass a callback function to `option` which will be called with the new
     // value at the path every time it is updated. It will be called immediately with the
     // initial value of the option or `undefined` if none is set.
     this.option('image_type', (type) => {
-      console.log(`${type} images? I love ${type} images!`);
+      console.log(`Images of ${type.toLowerCase()}? I love images of ${type.toLowerCase()}!`);
     });
   }
 };
