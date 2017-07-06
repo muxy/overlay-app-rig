@@ -41,7 +41,7 @@ export default {
     messageHandler: null
   }),
 
-   // Any methods defined here can be called from your template elements.
+  // Any methods defined here can be called from your template elements.
   methods: {
     showIncomingMessage(data) {
       this.title = data.title;
@@ -51,8 +51,8 @@ export default {
       // is a JavaScript reference to your parent DOM element (in this case <div class="toasty">).
 
       // First, remove all existing images from the DOM.
-      var imgs = document.getElementsByTagName('img');
-      for (let i = imgs.length - 1; i >= 0; i--) {
+      const imgs = document.getElementsByTagName('img');
+      for (let i = imgs.length - 1; i >= 0; i -= 1) {
         imgs[i].parentNode.removeChild(imgs[i]);
       }
 
