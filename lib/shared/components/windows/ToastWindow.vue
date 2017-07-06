@@ -14,7 +14,7 @@ export default {
     options: {
       type: Object,
       default: {
-        position: 'top right'
+        position: 'top left'
       }
     }
   },
