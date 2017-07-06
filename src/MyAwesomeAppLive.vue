@@ -55,7 +55,7 @@ export default {
   data: () => ({
     title: '',
     body: '',
-    imageType: '',
+    imageType: ''
   }),
 
   // Any methods defined here can be called from your template elements.

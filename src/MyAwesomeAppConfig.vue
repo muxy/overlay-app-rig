@@ -110,6 +110,7 @@ export default {
     // value at the path every time it is updated. It will be called immediately with the
     // initial value of the option or `undefined` if none is set.
     this.option('image_type', (type) => {
+      // eslint-disable-next-line no-console
       console.log(`Images of ${type.toLowerCase()}? I love images of ${type.toLowerCase()}!`);
     });
   }
