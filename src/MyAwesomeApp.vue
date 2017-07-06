@@ -20,6 +20,10 @@
 
 import AppMixin from 'shared/js/app-mixin';
 
+// Any local resources (images/fonts/etc.) should be referenced from your JavaScript. Small
+// sized files (~10KB) will be automatically inlined into the source code.
+import DefaultImage from './assets/images/default-image.png';
+
 // This is the main access point to this app.
 export default {
   // The name field must be your blessed app id and be the same as appears in config.json.
@@ -64,7 +68,14 @@ export default {
         // will change depending on your chosen window `type`, or you can control it manually.
         setTimeout(this.hide, 10000);
       });
-      imgEl.src = data.image;
+
+      // Local resources can be loaded from disk by importing them and using the references
+      // directly. Here we assume network failure 10% of the time and show a default image.
+      if (Math.random() < 0.9) {
+        imgEl.src = data.image;
+      } else {
+        imgEl.src = DefaultImage;
+      }
 
       this.$el.insertBefore(imgEl, this.$el.querySelector('.body'));
     }

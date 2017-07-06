@@ -1,3 +1,9 @@
+// Keen UI Resets
+*,
+*::before,
+*::after { box-sizing: border-box; }
+html { font-size: 100%; }
+
 // Normalize
 @import '~normalize-scss/sass/normalize';
 
@@ -86,15 +92,4 @@ a {
 
   &:active { color: $link-color-active; }
   &:hover { color: $link-color-hover; }
-}
-
-// Keen UI Resets
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 100%;
 }
