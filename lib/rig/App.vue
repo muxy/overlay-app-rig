@@ -144,7 +144,6 @@ export default {
       position: relative;
 
       .ext {
-        border: 0;
         position: absolute;
         top: 0;
         left: 0;
