@@ -12,6 +12,7 @@ import Error from 'shared/components/Error';
 import { Mutations, Events } from 'shared/js/store';
 
 import * as AppConfig from 'app/config';
+import * as manifest from 'manifest';
 
 import Config from './components/Config';
 
@@ -24,11 +25,13 @@ export default {
 
   created() {
     Muxy.testJWTRole = 'broadcaster';
-    const muxySDK = Muxy.SDK(AppConfig.id);
-    this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
+    Muxy.setup({ extensionID: manifest.extension_id });
 
+    const muxySDK = Muxy.SDK(AppConfig.id);
     muxySDK.loaded().then(() => {
+      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.SET_USER, muxySDK.user);
+
       muxySDK.getAllState().then((state) => {
         this.$store.commit(Mutations.SET_APP_ALL_OPTIONS, {
           id: AppConfig.id,

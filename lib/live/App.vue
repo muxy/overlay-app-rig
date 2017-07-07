@@ -8,6 +8,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
+import * as manifest from 'manifest';
+
 import Error from 'shared/components/Error';
 import { Mutations, Events } from 'shared/js/store';
 
@@ -24,10 +26,12 @@ export default {
 
   created() {
     Muxy.testJWTRole = 'broadcaster';
+    Muxy.setup({ extensionID: manifest.extension_id });
+
     const muxySDK = Muxy.SDK(AppConfig.id);
-    this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
 
     muxySDK.loaded().then(() => {
+      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.SET_USER, muxySDK.user);
 
       muxySDK.getAllState().then((state) => {
