@@ -12,15 +12,6 @@ import { Mutations } from 'shared/js/store';
 export default {
   name: 'popper-window',
   props: {
-    id: {
-      type: String,
-      required: true
-    },
-    show: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     placement: {
       type: String,
       required: false,
@@ -28,8 +19,7 @@ export default {
     },
     options: {
       type: Object,
-      required: false,
-      default: {}
+      required: true
     }
   },
 
@@ -38,7 +28,7 @@ export default {
   }),
 
   watch: {
-    show(showing) {
+    shown(showing) {
       if (showing) {
         this.$nextTick(() => {
           this.destroyPopper();
@@ -53,7 +43,7 @@ export default {
   },
 
   mounted() {
-    if (this.show) {
+    if (this.shown) {
       this.init();
     }
   },
@@ -64,7 +54,7 @@ export default {
 
   methods: {
     init() {
-      const triggerEl = document.querySelector(`#${this.id}.toolbar-app`);
+      const triggerEl = document.querySelector(`#${this.options.id}.toolbar-app`);
       this.popperEl = new Popper(triggerEl, this.$el, {
         placement: this.placement,
         removeOnDestroy: false
@@ -82,7 +72,7 @@ export default {
     },
 
     closePopper() {
-      this.$store.commit(Mutations.HIDE_APP, { appID: this.id });
+      this.$store.commit(Mutations.HIDE_APP, { appID: this.options.id });
     }
   }
 };

@@ -14,7 +14,7 @@
         </div>
       </ui-tab>
 
-      <ui-tab title="Broadcaster Config App" :disabled="!app.config">
+      <ui-tab title="Broadcaster Config App">
         <ui-button class="popout" icon="open_in_new" type="primary" @click="popout('/config.html')">
           Open In New Window
         </ui-button>
@@ -46,7 +46,7 @@
         </div>
       </ui-tab>
 
-      <ui-tab title="Broadcaster Live App" :disabled="!app.live">
+      <ui-tab title="Broadcaster Live App">
         <ui-button class="popout" icon="open_in_new" type="primary" @click="popout('/live.html')">
           Open In New Window
         </ui-button>
@@ -93,7 +93,7 @@ export default {
   components: { UiButton, UiTab, UiTabs, UiToolbar },
 
   data: () => ({
-    app: AppConfig,
+    config: AppConfig,
     videoChannel: 'lirik'
   }),
 
@@ -104,11 +104,11 @@ export default {
   },
 
   created() {
-    if (this.app.testing_channel) {
+    if (this.config.testing_channel) {
       const xhrPromise = new XHRPromise();
       xhrPromise.send({
           method: 'GET',
-          url: `https://api.twitch.tv/kraken/channels/${this.app.testing_channel}`,
+          url: `https://api.twitch.tv/kraken/channels/${this.config.testing_channel}`,
           headers: {
             Accept: 'application/vnd.twitchtv.v5+json',
             'Client-ID': '252bcsw1s0sx8qroh1t14its1aulp0a'
@@ -178,13 +178,13 @@ export default {
   }
 
   .config iframe {
-    height: 600px;
-    width: 600px;
+    height: 700px;
+    width: 800px;
     overflow: hidden;
   }
 
   .live iframe {
-    height: 200px;
+    height: 500px;
     width: 286px;
     overflow: hidden;
   }

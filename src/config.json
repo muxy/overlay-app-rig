@@ -1,14 +1,3 @@
 {
-  "id": "my_awesome_app",
-  "name": "My Awesome App",
-  "icon": "static/apps/my_awesome_app/logo.svg",
-  "window": {
-    "type": "toast",
-    "position": "top center"
-  },
-  "viewer": "MyAwesomeApp",
-  "config": "MyAwesomeAppConfig",
-  "live": "MyAwesomeAppLive",
-  "testing_channel": "126955211",
-  "broadcaster_whitelist": ["126955211", "89319907"]
+  "testing_channel": "126955211"
 }

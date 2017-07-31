@@ -1,28 +1,66 @@
 <template>
   <div class="dashboard">
-    <component :id="appID" :is="appID"></component>
+    <ul>
+      <router-link v-for="app in liveApps" tag="li" class="app" :key="app.id"
+        :to="{ name: 'live-app', params: { appid: app.id }}" exact>
+        <div class="item">
+          <img :src="`src/${app.id}/${app.icon}`" class="icon" />
+        </div>
+      </router-link>
+    </ul>
+
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
-import * as AppConfig from 'app/config';
-import DevLiveApp from 'app//* @echo live */';
+// Import live components for all dev apps.
+/* DI:ImportLiveApps */
 
-let localComponents = {
-  '/* @echo id */': DevLiveApp
-};
+// Set app components.
+const appComponents = /* DI:LiveAppComponents */;
+const components = _.extend(appComponents, {});
 
 export default {
   name: 'live',
-  components: localComponents,
+  components,
 
-  data: () => ({
-    appID: AppConfig.id
-  })
+  computed: {
+    ...mapGetters(['liveApps'])
+  }
 };
 </script>
 
 <style lang="scss">
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px;
+  text-align: center;
+  user-select: none;
+  vertical-align: middle;
+
+  &:hover { background-color: #444; }
+  & + .app { border-left: 1px dotted #999; }
+
+  .item {
+    height: 24px;
+    width: 24px;
+  }
+
+  .icon {
+    padding: 2px;
+    width: 24px;
+  }
+}
 </style>

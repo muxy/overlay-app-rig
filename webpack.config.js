@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -5,14 +6,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
-const _ = require('lodash');
-const AppConfig = require('./src/config.json');
-
 const port = process.env.PORT || 9000;
 
 function resolve(dir) {
   return path.resolve(__dirname, dir);
 }
+
+// Get a list of all installed apps.
+const isDirectory = source => fs.lstatSync(source).isDirectory();
+const getDirectories = source =>
+  fs.readdirSync(source).map(name => path.join(source, name)).filter(isDirectory);
+
+const apps = getDirectories(resolve('src'));
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -50,8 +55,8 @@ module.exports = {
     new CopyWebpackPlugin(
       [
         { from: 'static', to: 'static' },
-        { from: 'node_modules/keen-ui/dist/keen-ui.min.js', to: 'vendor/js/'},
-        { from: 'node_modules/animejs/anime.min.js', to: 'vendor/js/'}
+        { from: 'node_modules/keen-ui/dist/keen-ui.min.js', to: 'vendor/js/' },
+        { from: 'node_modules/animejs/anime.min.js', to: 'vendor/js/' }
       ],
       { ignore: ['.DS_Store'] }
     ),
@@ -87,9 +92,9 @@ module.exports = {
   ],
 
   devServer: {
+    port,
     hot: true,
     contentBase: path.resolve(__dirname, 'dist'),
-    port: port,
     publicPath: '/',
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -98,16 +103,34 @@ module.exports = {
     }
   },
 
+  resolveLoader: {
+    alias: {
+      'di-loader': path.resolve(__dirname, 'build', 'di-loader.js')
+    }
+  },
+
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader!preprocess-loader?' + JSON.stringify(_.extend(AppConfig, { ppOptions: { type:'js' }})),
+        use: [
+          { loader: 'vue-loader' },
+          {
+            loader: 'di-loader',
+            options: { apps }
+          }
+        ]
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader!preprocess-loader?' + JSON.stringify(_.extend(AppConfig, { ppOptions: { type:'js' }})),
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: [
+          { loader: 'babel-loader' },
+          {
+            loader: 'di-loader',
+            options: { apps }
+          }
+        ]
       },
       {
         test: /\.css$/,
@@ -121,7 +144,7 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 1,
           name: path.posix.join('static', 'fonts/[name].[ext]')
         }
       },
@@ -129,7 +152,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 1,
           name: '[path][name].[ext]?[hash]',
           useRelativePaths: true
         }

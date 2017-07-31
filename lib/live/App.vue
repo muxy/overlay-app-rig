@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <error v-if="error" :message="error"></error>
-    <live v-if="ready"></live>
+    <error :message="error"></error>
+    <router-view v-if="ready"></router-view>
   </div>
 </template>
 
@@ -13,43 +13,72 @@ import * as manifest from 'manifest';
 import Error from 'shared/components/Error';
 import { Mutations, Events } from 'shared/js/store';
 
-import * as AppConfig from 'app/config';
-
 import Live from './components/Live';
+
+const apps = /* DI:AppList */;
 
 // App object
 export default {
   name: 'app',
-  components: { Error, Live },
+  components: { Error },
 
-  computed: mapState(['error', 'ready']),
+  computed: {
+    ...mapState(['error', 'ready']),
+    ...mapGetters(['option', 'liveApps'])
+  },
+
+  methods: {
+    showFirstApp() {
+      if (this.$store.getters.liveApps.length > 0) {
+        this.$router.push({ name: 'live-app', params: { appid: this.$store.getters.liveApps[0].id } });
+      }
+    }
+  },
 
   created() {
+    this.$router.push('/');
+
     Muxy.testJWTRole = 'broadcaster';
     Muxy.setup({ extensionID: manifest.extension_id });
 
-    const muxySDK = Muxy.SDK(AppConfig.id);
-
+    const muxySDK = Muxy.SDK();
     muxySDK.loaded().then(() => {
-      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.SET_USER, muxySDK.user);
 
+      _.each(apps, (app) => {
+        app.enabled = true;
+        app.available = true;
+        app.required = true; // Don't let the developers disable the apps.
+        app.live = !!app.live;
+        app.show = false;
+        app.notification = false;
+
+        this.$store.commit(Mutations.ADD_APP, app);
+      });
+
       muxySDK.getAllState().then((state) => {
-        this.$store.commit(Mutations.SET_APP_ALL_OPTIONS, {
-          id: AppConfig.id,
-          options: state
-        });
+        this.$store.commit(Mutations.UPDATE_ALL_OPTIONS, state);
 
         this.$store.commit(Mutations.READY);
       });
 
       muxySDK.listen(Events.CHANNEL_OPTIONS_CHANGE, (options) => {
-        this.$store.commit(Mutations.SET_APP_CHANNEL_OPTIONS, {
-          id: AppConfig.id,
-          options
-        });
+        this.$store.commit(Mutations.UPDATE_CHANNEL_OPTIONS, options);
       });
     });
+  },
+
+  mounted() {
+    if (this.ready) {
+      this.showFirstApp();
+    } else {
+      const stopWatching = this.$store.watch(state => state.ready, (ready) => {
+        if (ready) {
+          stopWatching();
+          this.showFirstApp();
+        }
+      });
+    }
   }
 };
 </script>

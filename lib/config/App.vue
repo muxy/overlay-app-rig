@@ -1,53 +1,80 @@
 <template>
   <div id="app">
-    <error v-if="error" :message="error"></error>
-    <config v-if="ready"></config>
+    <error :message="error"></error>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+/* globals Muxy */
+
+import _ from 'lodash';
 import { mapState } from 'vuex';
 
 import Error from 'shared/components/Error';
 import { Mutations, Events } from 'shared/js/store';
 
-import * as AppConfig from 'app/config';
 import * as manifest from 'manifest';
 
-import Config from './components/Config';
+const apps = /* DI:AppList */;
 
 // App object
 export default {
   name: 'app',
-  components: { Error, Config },
-  data: () => ({}),
+  components: { Error },
   computed: mapState(['error', 'ready']),
+
+  methods: {
+    showFirstAppSettings() {
+      const appid = this.$store.getters.availableApps[0].id;
+      this.$router.push({ name: 'config-app', params: { appid } });
+    }
+  },
 
   created() {
     Muxy.testJWTRole = 'broadcaster';
     Muxy.setup({ extensionID: manifest.extension_id });
 
-    const muxySDK = Muxy.SDK(AppConfig.id);
+    const muxySDK = new Muxy.SDK();
     muxySDK.loaded().then(() => {
-      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.SET_USER, muxySDK.user);
 
+      _.each(apps, (app) => {
+        app.enabled = true;
+        app.available = true;
+        app.required = true; // Don't let the developers disable the apps.
+        app.configurable = !!app.config;
+        app.show = false;
+        app.notification = false;
+
+        this.$store.commit(Mutations.ADD_APP, app);
+      });
+
       muxySDK.getAllState().then((state) => {
-        this.$store.commit(Mutations.SET_APP_ALL_OPTIONS, {
-          id: AppConfig.id,
-          options: state
-        });
+        this.$store.commit(Mutations.UPDATE_ALL_OPTIONS, state);
 
         this.$store.commit(Mutations.READY);
       });
 
       muxySDK.listen(Events.CHANNEL_OPTIONS_CHANGE, (options) => {
-         this.$store.commit(Mutations.SET_APP_CHANNEL_OPTIONS, {
-          id: AppConfig.id,
-          options
-        });
+        this.$store.commit(Mutations.UPDATE_CHANNEL_OPTIONS, options);
       });
     });
+
+    this.$router.push('/');
+  },
+
+  mounted() {
+    if (this.ready) {
+      this.showFirstAppSettings();
+    } else {
+      const stopWatching = this.$store.watch(state => state.ready, (ready) => {
+        if (ready) {
+          stopWatching();
+          this.showFirstAppSettings();
+        }
+      });
+    }
   }
 };
 </script>

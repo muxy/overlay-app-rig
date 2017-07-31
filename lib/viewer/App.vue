@@ -1,17 +1,19 @@
 <template>
   <div class="app-container">
-    <error v-if="error" :message="error" :translucent="true"></error>
+    <error :translucent="true"></error>
     <toolbar v-if="show"></toolbar>
   </div>
 </template>
 
 <script>
+/* globals Muxy */
+
 import _ from 'lodash';
 
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import * as manifest from 'manifest';
+import * as config from 'manifest';
 
 import { Mutations, Events } from 'shared/js/store';
 
@@ -20,8 +22,11 @@ import Error from 'shared/components/Error';
 import Toolbar from 'shared/components/Toolbar';
 import CustomApp from 'shared/components/CustomApp';
 
-// Developer app
-import * as AppConfig from 'app/config';
+// Import developer app icons.
+/* DI:ImportAppIcons */
+
+// Developer apps list
+const apps = /* DI:AppList */;
 
 // App object
 export default {
@@ -37,37 +42,43 @@ export default {
     }),
 
     addAvailableApps() {
-      AppConfig.enabled = true;
-      AppConfig.available = true;
-      const AppComponent = Vue.extend(_.extend(CustomApp, { parent: this }));
-      new AppComponent({ data: AppConfig, store: this.$store }).$mount(); // eslint-disable-line no-new
+      _.each(apps, (app) => {
+        try {
+          app.enabled = true;
+          app.available = true;
+          app.show = false;
+          app.notification = false;
 
-      this.$store.commit(Mutations.ADD_APP, AppConfig);
+          const AppComponent = Vue.extend(_.extend(CustomApp, {
+            store: this.$store,
+            parent: this
+          }));
+
+          new AppComponent({ data: app }).$mount(); // eslint-disable-line no-new
+
+          this.$store.commit(Mutations.ADD_APP, app);
+        } catch (err) {
+          this.fail(err.toString());
+        }
+      });
     }
   },
 
   created() {
-    Muxy.setup({ extensionID: manifest.extension_id });
-    const muxySDK = Muxy.SDK(AppConfig.id);
+    Muxy.setup({ extensionID: config.extension_id });
 
+    const muxySDK = new Muxy.SDK();
     muxySDK.loaded().then(() => {
-      this.$store.commit(Mutations.SET_MUXY_SDK, muxySDK);
       this.$store.commit(Mutations.SET_USER, muxySDK.user);
 
       muxySDK.getAllState().then((state) => {
-        this.$store.commit(Mutations.SET_APP_ALL_OPTIONS, {
-          id: AppConfig.id,
-          options: state
-        });
+        this.$store.commit(Mutations.UPDATE_ALL_OPTIONS, state);
 
         this.$store.commit(Mutations.READY);
       });
 
       muxySDK.listen(Events.CHANNEL_OPTIONS_CHANGE, (options) => {
-         this.$store.commit(Mutations.SET_APP_CHANNEL_OPTIONS, {
-          id: AppConfig.id,
-          options
-        });
+         this.$store.commit(Mutations.UPDATE_CHANNEL_OPTIONS, options);
       });
     });
   },

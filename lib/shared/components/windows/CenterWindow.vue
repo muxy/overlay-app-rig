@@ -1,7 +1,7 @@
 <template>
   <div class="center-window" :style="style">
     <div class="header">
-      <h1 class="title">{{ title }}</h1>
+      <h1 class="title">{{ options.title }}</h1>
     </div>
 
     <div class="body">
@@ -19,9 +19,8 @@ export default {
   name: 'center-window',
 
   props: {
-    id: { type: String, required: true },
-    show: { type: Boolean, default: false },
-    title: { type: String, required: true }
+    shown: { type: Boolean, default: false },
+    options: { type: Object, required: true }
   },
 
   data: () => ({
@@ -31,7 +30,7 @@ export default {
   computed: {
     style() {
       return {
-        visibility: this.show ? '' : 'hidden',
+        visibility: this.shown ? '' : 'hidden',
         left: `${this.x}px`,
         top: `${this.y}px`
       };
@@ -39,7 +38,7 @@ export default {
   },
 
   watch: {
-    show(showing) {
+    shown(showing) {
       if (showing) {
         this.recenter();
       }
@@ -55,7 +54,7 @@ export default {
     },
 
     moveOnScreen() {
-      if (!this.show) {
+      if (!this.shown) {
         return;
       }
 

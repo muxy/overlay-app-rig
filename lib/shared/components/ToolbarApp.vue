@@ -1,30 +1,33 @@
 <template>
-  <li v-if="data.icon" :id="data.id" class="toolbar-app app" ref="app">
-    <ui-tooltip trigger="app" position="left middle">{{ data.name }}</ui-tooltip>
-    <div class="item" @click="focus" :class="{ notification: data.notification }">
-      <img :src="data.icon" class="icon" />
+  <li v-if="app.icon" :id="app.id" class="toolbar-app app" ref="app">
+    <ui-tooltip trigger="app" position="left middle">{{ app.name }}</ui-tooltip>
+    <div class="item" @click="focus" :class="{ notification: app.notification }">
+      <img :src="`src/${app.id}/${app.icon}`" class="icon" />
     </div>
   </li>
 </template>
 
 <script>
-  import { Mutations } from 'shared/js/store';
+import _ from 'lodash';
 
-  export default {
-    name: 'toolbar-app',
-    props: {
-      data: Object
-    },
+import { Mutations } from 'shared/js/store';
 
-    methods: {
-      focus(event) {
-        event.preventDefault();
-        event.stopPropagation();
+const UiTooltip = window.KeenUI.UiTooltip;
 
-        this.$store.commit(Mutations.TOGGLE_APP, { appID: this.data.id });
-      }
-    }
-  };
+export default {
+  name: 'toolbar-app',
+  props: ['app'],
+  components: { UiTooltip },
+
+  methods: {
+    focus:  _.debounce(function focus(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.$store.commit(Mutations.TOGGLE_APP, { appID: this.app.id });
+    }, 200)
+  }
+};
 </script>
 
 <style lang="scss">
@@ -43,7 +46,6 @@
   }
 
   img.icon { min-width: 15px; width: 2.3vw; max-width: 25px; }
-  i { font-size: calc(1.3rem + ((10vw - 5em)/10)); }
 
   &.notification {
     background-color: darken(firebrick, 10%);

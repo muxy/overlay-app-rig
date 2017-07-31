@@ -1,0 +1,13 @@
+{
+  "id": "my_awesome_app",
+  "name": "My Awesome App",
+  "icon": "assets/images/logo.svg",
+  "window": {
+    "type": "toast",
+    "position": "top center"
+  },
+  "viewer": "MyAwesomeApp",
+  "config": "MyAwesomeAppConfig",
+  "live": "MyAwesomeAppLive",
+  "broadcaster_whitelist": ["126955211", "89319907"]
+}
