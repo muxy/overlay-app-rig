@@ -9,17 +9,9 @@ export default {
   name: 'toast-window',
 
   props: {
-    id: { type: String, required: true },
-    show: { type: Boolean, default: false },
-    options: {
-      type: Object,
-      default: {
-        position: 'top left'
-      }
-    }
+    shown: { type: Boolean, default: false },
+    options: { type: Object, required: true }
   },
-
-  data: () => ({}),
 
   computed: {
     position() {
@@ -40,7 +32,9 @@ export default {
         anchorEnd: [0, 0]
       };
 
-      switch (this.options.position.toLowerCase()) {
+      const pos = (this.options.position || 'top left').toLowerCase();
+
+      switch (pos) {
         case 'top left':
           out = {
             position: [0, 0],
@@ -113,7 +107,7 @@ export default {
   },
 
   watch: {
-    show(showing) {
+    shown(showing) {
       if (showing) {
         this.animateOnScreen();
       } else {

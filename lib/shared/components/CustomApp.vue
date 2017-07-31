@@ -1,42 +1,33 @@
 <template>
   <div class="app">
-    <component v-if="windowType === WINDOW_TYPES.NONE" :id="id" :is="componentType" :parent-data="$data" :show="show"></component>
-
-    <movable-window v-else-if="windowType === WINDOW_TYPES.MOVABLE" :id="id" :show="show" :title="name" :options="windowOptions">
-      <component :id="id" :is="componentType" :parent-data="$data" :show="show"></component>
-    </movable-window>
-
-    <center-window v-else-if="windowType === WINDOW_TYPES.CENTER" :id="id" :show="show" :title="name" :options="windowOptions">
-      <component :id="id" :is="componentType" :parent-data="$data" :show="show"></component>
-    </center-window>
-
-    <toast-window v-else-if="windowType === WINDOW_TYPES.TOAST" :id="id" :show="show" :options="windowOptions">
-      <component :id="id" :is="componentType" :parent-data="$data" :show="show"></component>
-    </toast-window>
-
-    <popper-window v-else-if="windowType === WINDOW_TYPES.POPPER" :id="id" :show="show" :options="windowOptions">
-      <component :id="id" :is="componentType" :parent-data="$data" :show="show"></component>
-    </popper-window>
+    <component :is="windowType" :shown="show" :options="windowOptions">
+      <component :id="id" :is="componentType" :enabled="enabled" :shown="show"></component>
+    </component>
   </div>
 </template>
 
 <script>
+import _ from 'lodash';
+
 import CenterWindow from 'shared/components/windows/CenterWindow';
 import MovableWindow from 'shared/components/windows/MovableWindow';
+import NoneWindow from 'shared/components/windows/NoneWindow';
 import PopperWindow from 'shared/components/windows/PopperWindow';
 import ToastWindow from 'shared/components/windows/ToastWindow';
 
-import _ from 'lodash';
+// Import Viewer components for all dev apps.
+/* DI:ImportViewerApps */
 
-import DevApp from 'app//* @echo viewer */';
+// Set app components.
+const appComponents = /* DI:ViewerAppComponents */;
 
-let localComponents = {
+let localComponents = _.extend(appComponents, {
   CenterWindow,
   MovableWindow,
+  NoneWindow,
   PopperWindow,
-  ToastWindow,
-  '/* @echo id */': DevApp
-};
+  ToastWindow
+});
 
 const WINDOW_TYPES = {
   CENTER: 'center',
@@ -52,9 +43,6 @@ export default {
 
   data: () => ({
     WINDOW_TYPES,
-    show: false,
-    enabled: false,
-    notification: false,
     windowOptions: {}
   }),
 
@@ -65,10 +53,10 @@ export default {
 
     windowType() {
       if (typeof this.window === 'object') {
-        return this.window.type;
+        return `${this.window.type}-window`;
       }
 
-      return this.window || WINDOW_TYPES.MOVABLE;
+      return `${this.window}-window` || `${WINDOW_TYPES.MOVABLE}-window`;
     }
   },
 
@@ -84,6 +72,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-</style>

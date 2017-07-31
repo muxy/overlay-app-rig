@@ -1,0 +1,14 @@
+{
+  "id": "muxy_toast_demo",
+  "name": "Toast Demo",
+  "icon": "assets/images/logo.svg",
+  "window": {
+    "type": "toast",
+    "position": "top center"
+  },
+  "viewer": "ToastDemo",
+  "config": "ToastDemoConfig",
+  "live": "ToastDemoLive",
+  "broadcaster_whitelist": ["126955211", "89319907"],
+  "description": "This is a demo of the toast notification window.\nThe broadcaster can configure the placement and type of image to be shown, and then trigger a new message from the live app. All viewers with the Overlay loaded will see the message and image in the correct position for 5 seconds before it disappears."
+}

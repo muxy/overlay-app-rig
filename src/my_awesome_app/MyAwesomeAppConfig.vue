@@ -109,7 +109,8 @@ export default {
     // You can also pass a callback function to `option` which will be called with the new
     // value at the path every time it is updated. It will be called immediately with the
     // initial value of the option or `undefined` if none is set.
-    this.option('image_type', (type) => {
+    this.option('image_type', (image_type) => {
+      const type = image_type || imageTypeChoices[1];
       // eslint-disable-next-line no-console
       console.log(`Images of ${type.toLowerCase()}? I love images of ${type.toLowerCase()}!`);
     });
