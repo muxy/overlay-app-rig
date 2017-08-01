@@ -39,7 +39,6 @@
 //
 // It is not expected that broadcasters will keep this window open while they are streaming,
 // however, so it should not be used for immediate notifications or actions.
-
 import AppMixin from 'shared/js/app-mixin';
 
 // KeenUI is globally accessible to your app directly at the `window.KeenUI` object. You can
@@ -138,6 +137,11 @@ export default {
       margin-bottom: 5px;
       width: 64px;
     }
+  }
+
+  .game-auth {
+    width: 80%;
+    margin: 30px auto;
   }
 }
 </style>
