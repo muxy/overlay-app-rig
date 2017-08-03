@@ -60,11 +60,15 @@ module.exports = function directInjection(content) {
 
       iconImportStatements.push(`import ${viewerBasename}Icon from 'app/${app.id}/${app.icon}';`);
 
-      configImportStatements.push(`import ${configBasename} from 'app/${app.id}/${app.config}';`);
-      configAppComponents.push(`${app.id}: ${configBasename}`);
+      if (app.config) {
+        configImportStatements.push(`import ${configBasename} from 'app/${app.id}/${app.config}';`);
+        configAppComponents.push(`${app.id}: ${configBasename}`);
+      }
 
-      liveImportStatements.push(`import ${liveBasename} from 'app/${app.id}/${app.live}';`);
-      liveAppComponents.push(`${app.id}: ${liveBasename}`);
+      if (app.live) {
+        liveImportStatements.push(`import ${liveBasename} from 'app/${app.id}/${app.live}';`);
+        liveAppComponents.push(`${app.id}: ${liveBasename}`);
+      }
 
       viewerImportStatements.push(`import ${viewerBasename} from 'app/${app.id}/${app.viewer}';`);
       viewerAppComponents.push(`${app.id}: ${viewerBasename}`);
