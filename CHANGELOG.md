@@ -1,5 +1,11 @@
 # Muxy Overlay App Skeleton
 
+## 2016-08-03
+- Support for multiple apps in development.
+- Moved demo app to `src/muxy_toast_demo`.
+- Updated SDK referenced version.
+- Documentation now in-repo.
+
 ## 2016-07-06
 - Add new placement options for Toast windows.
 - Add example for broadcaster-configured window settings.
