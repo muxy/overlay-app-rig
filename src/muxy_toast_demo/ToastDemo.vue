@@ -51,7 +51,7 @@ export default {
       // is a JavaScript reference to your parent DOM element (in this case <div class="toasty">).
 
       // First, remove all existing images from the DOM.
-      const imgs = document.getElementsByTagName('img');
+      const imgs = this.$el.getElementsByTagName('img');
       for (let i = imgs.length - 1; i >= 0; i -= 1) {
         imgs[i].parentNode.removeChild(imgs[i]);
       }
@@ -89,6 +89,17 @@ export default {
     // same message, there will be no cross-communication. Any JSON payload sent with the
     // event will be passed to the callback function as the first parameter.
     this.messageHandler = this.muxy.listen('show_awesome_message', this.showIncomingMessage);
+
+    // If you need to do perform some custom logic when your application window is shown or hidden
+    // but don't want to implement your own window type, you can use the integrated Vue messaging
+    // system to get notified on `app-shown` and `app-hidden` events.
+    this.$on('app-shown', (data) => {
+      this.showIncomingMessage({
+        title: 'Example of an incoming message',
+        body: 'This message was not actually sent to all viewers, just you!',
+        image: DefaultImage
+      });
+    });
   },
 
   // The `destroyed` method is called when your app is being removed from overlay (not when
