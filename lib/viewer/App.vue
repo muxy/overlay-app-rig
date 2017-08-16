@@ -139,7 +139,7 @@ export default {
 
     // Watch for window resize events.
     window.addEventListener('resize', _.debounce(() => {
-      this.$emit('resize', event);
+      this.$emit('resize');
     }, 250));
   }
 };

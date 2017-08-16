@@ -84,7 +84,7 @@ export default {
     margin-right: 10px;
     outline: 0;
     font-size: 28px;
-    color: #ccc;
+    color: #333;
     line-height: 40px;
     text-align: center;
     cursor: pointer;
