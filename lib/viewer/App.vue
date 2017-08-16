@@ -48,6 +48,7 @@ export default {
           app.available = true;
           app.show = false;
           app.notification = false;
+          app.clicked = 0;
 
           const AppComponent = Vue.extend(_.extend(CustomApp, {
             store: this.$store,

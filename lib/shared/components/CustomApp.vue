@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <component :is="windowType" :shown="show" :options="windowOptions">
-      <component :id="id" :is="componentType" :enabled="enabled" :shown="show"></component>
+      <component :id="id" :is="componentType" :enabled="enabled" :shown="show" :clicked="clicked"></component>
     </component>
   </div>
 </template>

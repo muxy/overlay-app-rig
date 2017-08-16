@@ -105,8 +105,8 @@ export default {
   created() {
     // You can extract the initial options values using the `option` getters. Channel options
     // will be loaded from the server before your `created` method is called.
-    this.placement = this.option('placement', placementChoices[1]);
     this.imageType = this.option('image_type', imageTypeChoices[1]);
+    this.placement = this.option('window.position', placementChoices[1]);
 
     // You can also pass a callback function to `option` which will be called with the new
     // value at the path every time it is updated. It will be called immediately with the

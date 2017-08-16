@@ -1,7 +1,7 @@
 <template>
   <li v-if="app.icon" :id="app.id" class="toolbar-app app" ref="app">
     <ui-tooltip trigger="app" position="left middle">{{ app.name }}</ui-tooltip>
-    <div class="item" @click="focus" :class="{ notification: app.notification }">
+    <div class="item" @click="click" :class="{ notification: app.notification }">
       <img :src="`src/${app.id}/${app.icon}`" class="icon" />
     </div>
   </li>
@@ -20,11 +20,12 @@ export default {
   components: { UiTooltip },
 
   methods: {
-    focus:  _.debounce(function focus(event) {
+    click:  _.debounce(function focus(event) {
       event.preventDefault();
       event.stopPropagation();
 
       this.$store.commit(Mutations.TOGGLE_APP, { appID: this.app.id });
+      this.app.clicked += 1;
     }, 200)
   }
 };

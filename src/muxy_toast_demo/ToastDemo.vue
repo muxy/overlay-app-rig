@@ -93,7 +93,12 @@ export default {
     // If you need to do perform some custom logic when your application window is shown or hidden
     // but don't want to implement your own window type, you can use the integrated Vue messaging
     // system to get notified on `app-shown` and `app-hidden` events.
-    this.$on('app-shown', (data) => {
+    this.$on('app-shown', () => {
+      console.log('The window is about to be shown'); // eslint-disable-line no-console
+    });
+
+    // We also provide events for when your app's icon is clicked in the toolbar.
+    this.$on('clicked', () => {
       this.showIncomingMessage({
         title: 'Example of an incoming message',
         body: 'This message was not actually sent to all viewers, just you!',
