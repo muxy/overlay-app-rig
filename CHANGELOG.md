@@ -5,7 +5,10 @@
 - Massive update of documentation: Fixed incorrect docs around API calls, added info on voting.
 - Fixed toast demo to actually do something when clicked.
 - Updated `option` helper to conform to docs.
-- Updated GameAuth information.
+- Updated GameAuth system and documentation.
+- Fixed broken build because of missing `static/` folder.
+- Added environment separation code.
+- Fixed app configuration persistence.
 
 ## 2016-08-03
 - Support for multiple apps in development.
