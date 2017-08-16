@@ -8,7 +8,7 @@
 
         <div class="viewer">
           <div class="overlay">
-            <iframe class="ext" src="/viewer.html" scrolling="no" sandbox="allow-scripts"></iframe>
+            <iframe class="ext" src="/viewer.html" scrolling="no" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
             <iframe class="player" :src="`https://player.twitch.tv/?channel=${videoChannel}`" scrolling="no"></iframe>
           </div>
         </div>
@@ -21,7 +21,7 @@
 
         <div class="broadcaster">
           <div class="config">
-            <iframe src="/config.html" scrolling="no" sandbox="allow-scripts"></iframe>
+            <iframe src="/config.html" scrolling="no" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
           </div>
 
           <div class="info">
@@ -53,7 +53,7 @@
 
         <div class="broadcaster">
           <div class="live">
-            <iframe src="/live.html" scrolling="no" sandbox="allow-scripts"></iframe>
+            <iframe src="/live.html" scrolling="no" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
           </div>
 
           <div class="info">

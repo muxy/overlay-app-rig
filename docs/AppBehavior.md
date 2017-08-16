@@ -7,15 +7,14 @@ apps: the Broadcaster Config and Live Apps. Viewers or your external servers may
 the server and immediately broadcast updates to all viewers.
 
 ## App State
-To use the state storage and updates mechanisms, your app must include the AppMixin. This will
-provide many convenience methods and take responsibility for fetching and persisting state. To
+To use the state storage and updates mechanisms, your app must include the provided AppMixin. This
+will provide many convenience methods and take responsibility for fetching and persisting state. To
 include it, simply import and list it in the `mixins` section of your app:
 
 ```javascript
 import AppMixin from 'shared/js/app-mixin';
 
 export default {
-  ...
   mixins: [AppMixin],
   ...
 };
@@ -114,87 +113,20 @@ The available aggregations methods are:
 Accumulation is the simplest form of aggregation. Using this method, the server simply timestamps
 and concatenates all JSON blobs sent to it.
 
-No combining or processing is done on the data you send and no automatic broadcasting of the data
-is provided. Your app (or other authenticated source) must ask for the data using an
-accessor method.
-
-To send a data blob:
-
-```javascript
-this.muxy.accumulate('awesomeness_level', {
- awesomeness_level: {
-   great: 10,
-   good: 2.5,
-   poor: 'dank'
- }
-});
-```
-
-You may include any data in these blobs (e.g. timestamp or user id info) as long as it is a valid
-JSON object.
-
-To retrieve the accumulated data:
-```javascript
-const oneMinuteAgo = (new Date().getTime()) - (1000 * 60);
-
-this.muxy.getAccumulation('awesomeness_level', oneMinuteAgo);
-```
-
-The second parameter to getAccumulation() is a unix timestamp in milliseconds of the earliest
-accumulation record to return.
+More details can be found in the [Accumulate endpoint](Accumulate.md) documentation.
 
 ### Voting
-The voting endpoint takes integer values 0 through 5, uniques them on the server based on user
-identification and periodically broadcasts the sum of all votes and vote metadata to all
-viewers periodically.
+Voting is a convenience endpoint for letting viewers "vote" on a poll. Depending on the values you
+send, the poll can sum the sent values, classify the most popular option, or provide statistics
+based on the submitted values.
 
-To send a new vote for a user:
-
-```javascript
-// Viewer has chosen the first poll option
-this.muxy.vote('awesome_poll_number_1', 0);
-```
-
-To get the current vote data for a given poll:
-
-```javascript
-const voteResults = this.muxy.getVoteData('awesome_poll_number_1');
-
-console.log(voteResults.values);
-```
-
-If you'd like to listen for vote updates automatically instead of continuously polling, you can
-do so with the same event system and the special `vote_update` event:
-
-```javascript
-this.muxy.listen('vote_update:awesome_poll_number_1', (voteData) => {
- console.log(voteData.values);
-});
-```
+More details can be found in the [Vote endpoint](Vote.md) documentation.
 
 ### Ranking
 The ranking endpoint allows you to send arbitrary per-user keys to the server and request a ranked
 response of the most popular. The keys can be any string value.
 
-To send a ranking for a user:
-
-```javascript
-const usersFavoriteColor = 'tequila';
-
-this.muxy.rank('favorite_color', usersFavoriteColor);
-```
-
-To request the current user rankings:
-
-```javascript
-this.muxy.getRank('favorite_color').then((colors) => {
-  if (colors.values.length > 0) {
-    colors.values.forEach((color) => {
-      console.log(`${color.key}: ${color.score}`);
-    });
-  }
-});
-```
+More details can be found in the [Rank endpoint](Rank.md) documentation.
 
 ## Message Broadcast
 In addition to the automated messages sent in response to the state and voting endpoints, you can

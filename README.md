@@ -1,8 +1,6 @@
 # Muxy Overlay App Rig
 
-<a href="https://muxy.io">
-  <img src="docs/logo.svg" align="left" width="100" hspace="10" vspace="5">
-</a>
+![Muxy Logo](docs/logo.png)
 
 The Muxy Overlay App Rig is a platform to make developing interactive experiences on Twitch
 faster and easier!

@@ -1,5 +1,21 @@
 # App Configuration
 
+## Global Settings
+There is a global configuration file located at `src/config.json`. This file holds settings for the
+entire rig and does not effect your app. Currently it only contains a single option.
+
+```json
+{
+  "testing_channel": "126955211"
+}
+```
+
+| Field           | Required | Description                                          |
+|-----------------|----------|------------------------------------------------------|
+| testing_channel | Yes      | the Twitch Channel ID to load in the embedded player |
+
+
+## App Settings
 Your app must first be configured by editing the json file located in `src/<app id>/config.json`.
 This file defines the name and appearance of your app in the side toolbar, as well as how your
 app's window appears.
@@ -7,6 +23,10 @@ app's window appears.
 An app is identified by its `id` field. This is a string which you provide and can be any
 combination of lowercase letters, numbers and underscores. We use the convention of
 `<company_name>_<app_name>` to avoid collision.
+
+Once you have decided on an id for your app, you must send it to Muxy to have it "blessed." Until
+we get an automated system in place, send an email to support@muxy.io and include the app id you
+would like to use.
 
 ```json
 {
@@ -21,16 +41,16 @@ combination of lowercase letters, numbers and underscores. We use the convention
 }
 ```
 
-| Field                 | Required | Description                                                                            |
-|-----------------------|----------|----------------------------------------------------------------------------------------|
-| id                    | Yes      | a unique string identifier for your app.                                               |
-| name                  | Yes      | a short string name for your app.                                                      |
-| icon                  | Yes      | a path to the white silhouette version of your toolbar icon.                           |
-| window                | No       | a string designating the type of window-management used by this app.                   |
-| viewer                | Yes      | a path to the vue component file for your viewer app.                                  |
-| config                | No       | if you have an associated broadcaster config app, the path to that vue component file. |
-| live                  | No       | if you have an associated broadcaster live app, the path to that vue component file.   |
-| broadcaster_whitelist | No       | a list of channel ids to limit your app's installable access.                          |
+| Field                 | Required | Description                                                                           |
+|-----------------------|----------|---------------------------------------------------------------------------------------|
+| id                    | Yes      | a unique string identifier for your app                                               |
+| name                  | Yes      | a short string name for your app                                                      |
+| icon                  | Yes      | a path to the white silhouette version of your toolbar icon                           |
+| window                | No       | a string designating the type of window-management used by this app                   |
+| viewer                | Yes      | a path to the vue component file for your viewer app                                  |
+| config                | No       | if you have an associated broadcaster config app, the path to that vue component file |
+| live                  | No       | if you have an associated broadcaster live app, the path to that vue component file   |
+| broadcaster_whitelist | No       | a list of channel ids to limit your app's installable access                          |
 
 ## Next Steps
  - [App Structure](AppStructure.md)

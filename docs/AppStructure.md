@@ -9,11 +9,11 @@ detailed below.
 ## Template
 The template is a standard HTML structure defined within the `<template>` block. You must define a
 single element inside the template block eg. a div. Any valid HTML can appear here, with the
-exception of external links and `<script>` blocks (see "[Code](#Code)" below for how to define
+exception of external links and `<script>` blocks (see "Code" below for how to define
 app behavior).
 
 The full suite of VueJS bindings can be used here, although we recommend using the dynamic helpers
-provided by the Muxy SDK (as described in [App State](AppState.md)).
+provided by the Muxy SDK (as described in [App Behavior](AppBehavior.md)).
 
 ```html
 <template>

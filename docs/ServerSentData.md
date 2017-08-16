@@ -21,8 +21,9 @@ The data you POST to this endpoint will be stored indefinitely, keyed on your ap
 identifier. The current stored data may be retrieved at any time by calling:
 
 ```javascript
-const data = this.muxy.getJSONStore('awesome_server_action');
-console.log(data.awesomeness);
+this.muxy.getJSONStore('awesome_server_action').then((data) => {
+  console.log(data.awesomeness);
+});
 ```
 
 In addition to retrieving the data at any time, Muxy will broadcast an event to all viewers

@@ -61,6 +61,8 @@ with extra configuration.
 values are: `top left`, `top center`, `top right`, `middle left`, `middle right`, `bottom left`,
 `bottom center` or `bottom right`.
 
+Your code can, of course, override this setting and choose any display position at runtime.
+
 ### Popper
 If `window` is set to `popper`, your app's template will be rendered directly to the left or right
 of the toolbar (depending on its position on-screen). This can be used to create a "sub-menu" of
