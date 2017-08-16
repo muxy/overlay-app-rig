@@ -8,6 +8,7 @@
 - Updated GameAuth system and documentation.
 - Fixed broken build because of missing `static/` folder.
 - Added environment separation code.
+- Fixed app configuration persistence.
 
 ## 2016-08-03
 - Support for multiple apps in development.
