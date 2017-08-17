@@ -25,7 +25,7 @@ export default {
       event.stopPropagation();
 
       this.$store.commit(Mutations.TOGGLE_APP, { appID: this.app.id });
-      this.app.clicked += 1;
+      this.$store.commit(Mutations.CLICK_APP, { appID: this.app.id });
     }, 200)
   }
 };
