@@ -1,6 +1,6 @@
 # Muxy Overlay App Skeleton
 
-## 2016-08-16
+## 2016-08-18
 - Removed old awesome_app demo.
 - Massive update of documentation: Fixed incorrect docs around API calls, added info on voting.
 - Fixed toast demo to actually do something when clicked.

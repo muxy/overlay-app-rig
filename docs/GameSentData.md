@@ -30,7 +30,7 @@ PIN pairs will continue to work.
 >
 > `{"token": "<broadcaster's auth token>", "pin": "<a 6-character broadcaster PIN>"}`
 
-The PIN will always be a 6-character alphanumeric string and is not case-sensitive. We recommend
+The PIN will always be a 4-character alphanumeric string and is not case-sensitive. We recommend
 displaying the PIN using a clear, high-contrast font in all uppercase.
 
 To finish the authorization setup, this PIN is entered in your Muxy Overlay App’s Config page (more
@@ -71,7 +71,7 @@ To support client-side authentication, you must have an Overlay Config app. This
 any configuration your app needs to run, but must at a minimum include and display the provided
 GameAuth component.
 
-The GameAuth displays a 6-character input field and validate and cancel buttons. It is up to the
+The GameAuth displays a 4-character input field and validate and cancel buttons. It is up to the
 containing app to handle showing and displaying this component. The component has two required
 props - `:muxy`, which should be set to the muxy sdk associated with your extension, and `:appName`
 - the user-facing name of your extension.
