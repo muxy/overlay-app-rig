@@ -1,0 +1,12 @@
+{
+  "id": "hardware_monitor",
+  "name": "Hardware Monitor",
+  "icon": "assets/images/logo.svg",
+  "window": {
+    "type": "movable"
+  },
+  "viewer": "HardwareMonitor",
+  "config": "HardwareMonitorConfig",
+  "available": true,
+  "description": ""
+}
