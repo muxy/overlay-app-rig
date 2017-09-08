@@ -1,0 +1,10 @@
+{
+  "id": "muxy_polls",
+  "name": "Polls",
+  "icon": "assets/images/logo.svg",
+  "window": "movable",
+  "viewer": "MuxyPollsApp",
+  "live": "MuxyPollsLive",
+  "available": true,
+  "description": "Poll your audience and have them make decisions! Polls can be created from the live dashboard."
+}

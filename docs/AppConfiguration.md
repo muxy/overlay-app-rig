@@ -24,7 +24,7 @@ An app is identified by its `id` field. This is a string which you provide and c
 combination of lowercase letters, numbers and underscores. We use the convention of
 `<company_name>_<app_name>` to avoid collision.
 
-Once you have decided on an id for your app, navigate to [https://u.muxy.io/developers](https://u.muxy.io/developers) and create a new
+Once you have decided on an id for your app, navigate to [https://u.muxy.io/dashboard/developers](https://u.muxy.io/dashboard/developers) and create a new
 overlay app. This will allow the automatic sandbox credentials to work for your extension.
 
 ```json
