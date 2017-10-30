@@ -12,7 +12,7 @@ See also:
 
 [Muxy Extension JavaScript Library](https://github.com/muxy/extensions-js)
 
-[Muxy Extension Rig](https://github.com/muxy/extension-rig)
+[Muxy Extension Rig](https://github.com/muxy/extensions-rig)
 
 ## Overview
 
